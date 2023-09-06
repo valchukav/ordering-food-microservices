@@ -14,4 +14,11 @@
     <properties>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>order-application-service</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
