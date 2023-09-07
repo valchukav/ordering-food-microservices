@@ -9,6 +9,7 @@ import ru.avalc.ordering.domain.valueobject.StreetAddress;
 import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
 import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
 import ru.avalc.ordering.service.domain.dto.create.OrderAddress;
+import ru.avalc.ordering.service.domain.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.ordering.system.domain.valueobject.Money;
 import ru.avalc.ordering.system.domain.valueobject.ProductID;
@@ -51,6 +52,14 @@ public class OrderDataMapper {
         return CreateOrderResponse.builder()
                 .orderTrackingID(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
+                .build();
+    }
+
+    public TrackOrderResponse orderToTrackOrderResponse(Order order) {
+        return TrackOrderResponse.builder()
+                .orderTrackingID(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessages())
                 .build();
     }
 
