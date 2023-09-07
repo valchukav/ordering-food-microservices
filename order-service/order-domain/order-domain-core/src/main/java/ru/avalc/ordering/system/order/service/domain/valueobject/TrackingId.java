@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class TrackingId extends BaseID<UUID> {
 
-    protected TrackingId(UUID value) {
+    public TrackingId(UUID value) {
         super(value);
     }
 }

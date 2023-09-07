@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.avalc.ordering.system.domain.entity.AggregateRoot;
 import ru.avalc.ordering.system.domain.valueobject.*;
+import ru.avalc.ordering.system.order.service.domain.exception.OrderDomainException;
+import ru.avalc.ordering.system.order.service.domain.valueobject.OrderItemID;
 import ru.avalc.ordering.system.order.service.domain.valueobject.StreetAddress;
 import ru.avalc.ordering.system.order.service.domain.valueobject.TrackingId;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Alexei Valchuk, 06.09.2023, email: a.valchukav@gmail.com
@@ -41,5 +44,54 @@ public class Order extends AggregateRoot<OrderID> {
         this.trackingId = trackingId;
         this.orderStatus = orderStatus;
         this.failureMessages = failureMessages;
+    }
+
+    public void initOrder() {
+        super.setId(new OrderID(UUID.randomUUID()));
+        trackingId = new TrackingId(UUID.randomUUID());
+        orderStatus = OrderStatus.PENDING;
+        initOrderItems();
+    }
+
+    private void initOrderItems() {
+        long itemID = 1L;
+        for (OrderItem orderItem : orderItems) {
+            orderItem.initOrderItem(super.getId(), new OrderItemID(itemID++));
+        }
+    }
+
+    public void validateOrder() {
+        validateInitialOrder();
+        validateTotalPrice();
+        validateItemsPrice();
+    }
+
+    private void validateInitialOrder() {
+        if (orderStatus != null || getId() != null) {
+            throw new OrderDomainException("Order is not in a correct state for initialization");
+        }
+    }
+
+    private void validateTotalPrice() {
+        if (price == null || !price.isGreaterThanZero()) {
+            throw new OrderDomainException("Total price must be greater than zero");
+        }
+    }
+
+    private void validateItemsPrice() {
+        Money orderItemsTotal = orderItems.stream().map(orderItem -> {
+            validateOrderItemPrice(orderItem);
+            return orderItem.getSubTotal();
+        }).reduce(Money.ZERO, Money::add);
+
+        if (!price.equals(orderItemsTotal)) {
+            throw new OrderDomainException("Total price: " + price.getAmount()
+                    + ", is not equal to Order items total: " + orderItemsTotal.getAmount());
+        }
+    }
+
+    private void validateOrderItemPrice(OrderItem orderItem) {
+        if (!orderItem.isPriceValid()) throw new OrderDomainException("Item price: " + orderItem.getPrice().getAmount()
+                + ", is not valid for product: " + orderItem.getProduct().getId().getValue());
     }
 }

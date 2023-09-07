@@ -13,6 +13,8 @@ import java.util.Objects;
 @Getter
 public class Money {
 
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
+
     private final BigDecimal amount;
 
     public Money(BigDecimal amount) {
