@@ -1,4 +1,4 @@
-package ru.avalc.ordering.system.order.service.domain.exception;
+package ru.avalc.ordering.domain.exception;
 
 import ru.avalc.ordering.system.domain.exception.DomainException;
 

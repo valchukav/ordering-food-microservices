@@ -1,10 +1,10 @@
-package ru.avalc.ordering.system.order.service.domain;
+package ru.avalc.ordering.domain;
 
-import ru.avalc.ordering.system.order.service.domain.entity.Order;
-import ru.avalc.ordering.system.order.service.domain.entity.Restaurant;
-import ru.avalc.ordering.system.order.service.domain.event.OrderCancelledEvent;
-import ru.avalc.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import ru.avalc.ordering.system.order.service.domain.event.OrderPaidEvent;
+import ru.avalc.ordering.domain.entity.Order;
+import ru.avalc.ordering.domain.entity.Restaurant;
+import ru.avalc.ordering.domain.event.OrderCancelledEvent;
+import ru.avalc.ordering.domain.event.OrderCreatedEvent;
+import ru.avalc.ordering.domain.event.OrderPaidEvent;
 
 import java.util.List;
 

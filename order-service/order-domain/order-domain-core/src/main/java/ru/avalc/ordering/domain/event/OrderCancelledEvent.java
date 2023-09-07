@@ -1,6 +1,7 @@
-package ru.avalc.ordering.system.order.service.domain.event;
+package ru.avalc.ordering.domain.event;
 
-import ru.avalc.ordering.system.order.service.domain.entity.Order;
+
+import ru.avalc.ordering.domain.entity.Order;
 
 import java.time.ZonedDateTime;
 
