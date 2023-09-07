@@ -1,17 +1,16 @@
-package ru.avalc.ordering.system.order.service.domain.entity;
+package ru.avalc.ordering.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import ru.avalc.ordering.domain.valueobject.OrderItemID;
 import ru.avalc.ordering.system.domain.entity.BaseEntity;
 import ru.avalc.ordering.system.domain.valueobject.Money;
 import ru.avalc.ordering.system.domain.valueobject.OrderID;
-import ru.avalc.ordering.system.order.service.domain.valueobject.OrderItemID;
 
 /**
  * @author Alexei Valchuk, 06.09.2023, email: a.valchukav@gmail.com
  */
 
-@Builder
 @Getter
 public class OrderItem extends BaseEntity<OrderItemID> {
 
@@ -21,6 +20,7 @@ public class OrderItem extends BaseEntity<OrderItemID> {
     private final Money price;
     private final Money subTotal;
 
+    @Builder
     private OrderItem(OrderItemID orderItemID, OrderID orderID, Product product, int quantity, Money price, Money subTotal) {
         super(orderItemID);
         this.orderID = orderID;

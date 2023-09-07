@@ -1,4 +1,4 @@
-package ru.avalc.ordering.system.order.service.domain.entity;
+package ru.avalc.ordering.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +13,16 @@ import java.util.List;
  */
 
 @Getter
-@Builder
 public class Restaurant extends AggregateRoot<RestaurantID> {
 
     private final List<Product> products;
     @Setter
     private boolean active;
+
+    @Builder
+    private Restaurant(RestaurantID restaurantID, List<Product> products, boolean active) {
+        super(restaurantID);
+        this.products = products;
+        this.active = active;
+    }
 }

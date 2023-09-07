@@ -1,5 +1,6 @@
-package ru.avalc.ordering.system.order.service.domain.entity;
+package ru.avalc.ordering.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ru.avalc.ordering.system.domain.entity.BaseEntity;
@@ -17,8 +18,14 @@ public class Product extends BaseEntity<ProductID> {
     private String name;
     private Money price;
 
-    public Product(ProductID productID, String name, Money price) {
+    @Builder
+    private Product(ProductID productID, String name, Money price) {
         super(productID);
+        this.name = name;
+        this.price = price;
+    }
+
+    public void updateWithConfirmedNameAndPrice(String name, Money price) {
         this.name = name;
         this.price = price;
     }

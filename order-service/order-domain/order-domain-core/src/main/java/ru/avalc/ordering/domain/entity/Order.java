@@ -1,14 +1,14 @@
-package ru.avalc.ordering.system.order.service.domain.entity;
+package ru.avalc.ordering.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import ru.avalc.ordering.domain.exception.OrderDomainException;
+import ru.avalc.ordering.domain.valueobject.OrderItemID;
+import ru.avalc.ordering.domain.valueobject.StreetAddress;
+import ru.avalc.ordering.domain.valueobject.TrackingID;
 import ru.avalc.ordering.system.domain.entity.AggregateRoot;
 import ru.avalc.ordering.system.domain.valueobject.*;
-import ru.avalc.ordering.system.order.service.domain.exception.OrderDomainException;
-import ru.avalc.ordering.system.order.service.domain.valueobject.OrderItemID;
-import ru.avalc.ordering.system.order.service.domain.valueobject.StreetAddress;
-import ru.avalc.ordering.system.order.service.domain.valueobject.TrackingId;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +18,6 @@ import java.util.UUID;
  */
 
 @Getter
-@Builder
 public class Order extends AggregateRoot<OrderID> {
 
     private final CustomerID customerID;
@@ -28,13 +27,15 @@ public class Order extends AggregateRoot<OrderID> {
     private final List<OrderItem> orderItems;
 
     @Setter
-    private TrackingId trackingId;
+    private TrackingID trackingId;
     @Setter
     private OrderStatus orderStatus;
     @Setter
     private List<String> failureMessages;
 
-    private Order(OrderID orderID, CustomerID customerID, RestaurantID restaurantID, StreetAddress deliveryAddress, Money price, List<OrderItem> orderItems, TrackingId trackingId, OrderStatus orderStatus, List<String> failureMessages) {
+    @Builder
+    private Order(OrderID orderID, CustomerID customerID, RestaurantID restaurantID, StreetAddress deliveryAddress,
+                  Money price, List<OrderItem> orderItems, TrackingID trackingId, OrderStatus orderStatus, List<String> failureMessages) {
         super(orderID);
         this.customerID = customerID;
         this.restaurantID = restaurantID;
@@ -48,7 +49,7 @@ public class Order extends AggregateRoot<OrderID> {
 
     public void initOrder() {
         super.setId(new OrderID(UUID.randomUUID()));
-        trackingId = new TrackingId(UUID.randomUUID());
+        trackingId = new TrackingID(UUID.randomUUID());
         orderStatus = OrderStatus.PENDING;
         initOrderItems();
     }
