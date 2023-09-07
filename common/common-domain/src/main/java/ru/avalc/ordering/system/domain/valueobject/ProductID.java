@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class ProductID extends BaseID<UUID>{
 
-    protected ProductID(UUID value) {
+    public ProductID(UUID value) {
         super(value);
     }
 }

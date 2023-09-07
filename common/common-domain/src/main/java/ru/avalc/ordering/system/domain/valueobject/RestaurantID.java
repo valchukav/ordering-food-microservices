@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class RestaurantID extends BaseID<UUID>{
 
-    protected RestaurantID(UUID value) {
+    public RestaurantID(UUID value) {
         super(value);
     }
 }

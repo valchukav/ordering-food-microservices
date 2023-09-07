@@ -1,4 +1,4 @@
-package ru.avalc.ordering.system.order.service.domain.valueobject;
+package ru.avalc.ordering.domain.valueobject;
 
 import ru.avalc.ordering.system.domain.valueobject.BaseID;
 
@@ -8,9 +8,9 @@ import java.util.UUID;
  * @author Alexei Valchuk, 06.09.2023, email: a.valchukav@gmail.com
  */
 
-public class TrackingId extends BaseID<UUID> {
+public class TrackingID extends BaseID<UUID> {
 
-    public TrackingId(UUID value) {
+    public TrackingID(UUID value) {
         super(value);
     }
 }

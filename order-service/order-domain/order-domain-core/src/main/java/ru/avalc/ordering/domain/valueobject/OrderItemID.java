@@ -1,4 +1,4 @@
-package ru.avalc.ordering.system.order.service.domain.valueobject;
+package ru.avalc.ordering.domain.valueobject;
 
 import ru.avalc.ordering.system.domain.valueobject.BaseID;
 
