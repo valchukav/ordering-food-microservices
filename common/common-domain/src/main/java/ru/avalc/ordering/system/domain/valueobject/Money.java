@@ -18,7 +18,11 @@ public class Money {
     private final BigDecimal amount;
 
     public Money(BigDecimal amount) {
-        this.amount = amount;
+        this.amount = setScale(amount);
+    }
+
+    public Money(int amount) {
+        this.amount = setScale(BigDecimal.valueOf(amount));
     }
 
     public boolean isGreaterThanZero() {
