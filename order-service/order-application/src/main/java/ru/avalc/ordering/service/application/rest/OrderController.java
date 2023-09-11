@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderQuery;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderResponse;
+import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
+import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
+import ru.avalc.ordering.application.dto.track.TrackOrderQuery;
+import ru.avalc.ordering.application.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.service.domain.ports.input.service.OrderApplicationService;
 
 import java.util.UUID;

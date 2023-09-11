@@ -1,6 +1,5 @@
-package ru.avalc.ordering.service.domain.dto.track;
+package ru.avalc.ordering.application.dto.track;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,10 +11,13 @@ import java.util.UUID;
  */
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class TrackOrderQuery {
 
     @NotNull
     private final UUID orderTrackingID;
+
+    @Builder
+    private TrackOrderQuery(UUID orderTrackingID) {
+        this.orderTrackingID = orderTrackingID;
+    }
 }

@@ -9,33 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>order-application-service</artifactId>
-
-    <properties>
-    </properties>
+    <artifactId>order-application-dto</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>ru.avalc</groupId>
-            <artifactId>order-domain-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.avalc</groupId>
             <artifactId>common-domain</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ru.avalc</groupId>
-            <artifactId>order-application-dto</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ru.avalc</groupId>
-            <artifactId>common-tests</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
 </project>

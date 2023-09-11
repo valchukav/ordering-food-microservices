@@ -1,6 +1,5 @@
-package ru.avalc.ordering.service.domain.dto.create;
+package ru.avalc.ordering.application.dto.create;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,8 +12,6 @@ import java.util.UUID;
  */
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class OrderItem {
 
     @NotNull
@@ -28,4 +25,12 @@ public class OrderItem {
 
     @NotNull
     private final BigDecimal subTotal;
+
+    @Builder
+    private OrderItem(UUID productID, Integer quantity, BigDecimal price, BigDecimal subTotal) {
+        this.productID = productID;
+        this.quantity = quantity;
+        this.price = price;
+        this.subTotal = subTotal;
+    }
 }

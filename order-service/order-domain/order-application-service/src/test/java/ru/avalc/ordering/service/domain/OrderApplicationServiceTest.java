@@ -6,14 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
 import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
 import ru.avalc.ordering.domain.exception.OrderDomainException;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
-import ru.avalc.ordering.service.domain.dto.create.OrderAddress;
-import ru.avalc.ordering.service.domain.dto.create.OrderItem;
 import ru.avalc.ordering.service.domain.mapper.OrderDataMapper;
 import ru.avalc.ordering.service.domain.ports.input.service.OrderApplicationService;
 import ru.avalc.ordering.service.domain.ports.output.repository.CustomerRepository;
@@ -22,7 +19,6 @@ import ru.avalc.ordering.service.domain.ports.output.repository.RestaurantReposi
 import ru.avalc.ordering.system.domain.valueobject.*;
 import ru.avalc.ordering.tests.OrderingTest;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,83 +50,8 @@ public class OrderApplicationServiceTest extends OrderingTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    private CreateOrderCommand createOrderCommand;
-    private CreateOrderCommand createOrderCommandWrongPrice;
-    private CreateOrderCommand createOrderCommandWrongProductPrice;
-
-    @Override
     @BeforeAll
     public void init() {
-        super.init();
-        createOrderCommand = CreateOrderCommand.builder()
-                .customerID(CUSTOMER_ID)
-                .restaurantID(RESTAURANT_ID)
-                .address(OrderAddress.builder()
-                        .street("st_1")
-                        .postalCode("1")
-                        .city("city_1")
-                        .build())
-                .price(PRICE)
-                .items(List.of(OrderItem.builder()
-                                .productID(PRODUCT_ID_1)
-                                .quantity(1)
-                                .price(BigDecimal.valueOf(50))
-                                .subTotal(BigDecimal.valueOf(50))
-                                .build(),
-                        OrderItem.builder()
-                                .productID(PRODUCT_ID_2)
-                                .quantity(3)
-                                .price(BigDecimal.valueOf(50))
-                                .subTotal(BigDecimal.valueOf(150))
-                                .build()))
-                .build();
-
-        createOrderCommandWrongPrice = CreateOrderCommand.builder()
-                .customerID(CUSTOMER_ID)
-                .restaurantID(RESTAURANT_ID)
-                .address(OrderAddress.builder()
-                        .street("st_1")
-                        .postalCode("1")
-                        .city("city_1")
-                        .build())
-                .price(BigDecimal.valueOf(250))
-                .items(List.of(OrderItem.builder()
-                                .productID(PRODUCT_ID_1)
-                                .quantity(1)
-                                .price(BigDecimal.valueOf(50))
-                                .subTotal(BigDecimal.valueOf(50))
-                                .build(),
-                        OrderItem.builder()
-                                .productID(PRODUCT_ID_2)
-                                .quantity(3)
-                                .price(BigDecimal.valueOf(50))
-                                .subTotal(BigDecimal.valueOf(150))
-                                .build()))
-                .build();
-
-        createOrderCommandWrongProductPrice = CreateOrderCommand.builder()
-                .customerID(CUSTOMER_ID)
-                .restaurantID(RESTAURANT_ID)
-                .address(OrderAddress.builder()
-                        .street("st_1")
-                        .postalCode("1")
-                        .city("city_1")
-                        .build())
-                .price(BigDecimal.valueOf(210))
-                .items(List.of(OrderItem.builder()
-                                .productID(PRODUCT_ID_1)
-                                .quantity(1)
-                                .price(BigDecimal.valueOf(60))
-                                .subTotal(BigDecimal.valueOf(60))
-                                .build(),
-                        OrderItem.builder()
-                                .productID(PRODUCT_ID_2)
-                                .quantity(3)
-                                .price(BigDecimal.valueOf(50))
-                                .subTotal(BigDecimal.valueOf(150))
-                                .build()))
-                .build();
-
         order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
         order.setId(new OrderID(ORDER_ID));
 

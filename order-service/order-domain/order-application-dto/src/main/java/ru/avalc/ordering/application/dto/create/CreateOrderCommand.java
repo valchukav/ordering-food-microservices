@@ -1,6 +1,5 @@
-package ru.avalc.ordering.service.domain.dto.create;
+package ru.avalc.ordering.application.dto.create;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,8 +13,6 @@ import java.util.UUID;
  */
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class CreateOrderCommand {
 
     @NotNull
@@ -32,4 +29,13 @@ public class CreateOrderCommand {
 
     @NotNull
     private final OrderAddress address;
+
+    @Builder
+    private CreateOrderCommand(UUID customerID, UUID restaurantID, BigDecimal price, List<OrderItem> items, OrderAddress address) {
+        this.customerID = customerID;
+        this.restaurantID = restaurantID;
+        this.price = price;
+        this.items = items;
+        this.address = address;
+    }
 }

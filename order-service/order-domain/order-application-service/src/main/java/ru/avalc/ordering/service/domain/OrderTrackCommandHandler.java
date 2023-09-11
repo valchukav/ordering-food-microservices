@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.avalc.ordering.application.dto.track.TrackOrderQuery;
+import ru.avalc.ordering.application.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.exception.OrderNotFoundException;
 import ru.avalc.ordering.domain.valueobject.TrackingID;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderQuery;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.service.domain.mapper.OrderDataMapper;
 import ru.avalc.ordering.service.domain.ports.output.repository.OrderRepository;
 

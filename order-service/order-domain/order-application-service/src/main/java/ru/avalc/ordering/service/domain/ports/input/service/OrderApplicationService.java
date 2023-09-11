@@ -1,9 +1,9 @@
 package ru.avalc.ordering.service.domain.ports.input.service;
 
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderQuery;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderResponse;
+import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
+import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
+import ru.avalc.ordering.application.dto.track.TrackOrderQuery;
+import ru.avalc.ordering.application.dto.track.TrackOrderResponse;
 
 import javax.validation.Valid;
 

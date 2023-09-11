@@ -20,5 +20,9 @@
             <groupId>ru.avalc</groupId>
             <artifactId>common-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>order-application-dto</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -3,9 +3,9 @@ package ru.avalc.ordering.service.domain;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
+import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
 import ru.avalc.ordering.service.domain.mapper.OrderDataMapper;
 import ru.avalc.ordering.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 

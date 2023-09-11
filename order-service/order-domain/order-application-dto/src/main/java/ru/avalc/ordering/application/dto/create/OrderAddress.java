@@ -1,6 +1,5 @@
-package ru.avalc.ordering.service.domain.dto.create;
+package ru.avalc.ordering.application.dto.create;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,8 +11,6 @@ import javax.validation.constraints.NotNull;
  */
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class OrderAddress {
 
     @NotNull
@@ -27,4 +24,11 @@ public class OrderAddress {
     @NotNull
     @Max(value = 50)
     private final String city;
+
+    @Builder
+    private OrderAddress(String street, String postalCode, String city) {
+        this.street = street;
+        this.postalCode = postalCode;
+        this.city = city;
+    }
 }

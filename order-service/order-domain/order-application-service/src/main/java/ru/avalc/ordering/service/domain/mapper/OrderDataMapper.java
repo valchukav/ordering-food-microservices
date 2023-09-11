@@ -1,15 +1,15 @@
 package ru.avalc.ordering.service.domain.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
+import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
+import ru.avalc.ordering.application.dto.create.OrderAddress;
+import ru.avalc.ordering.application.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.OrderItem;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
 import ru.avalc.ordering.domain.valueobject.StreetAddress;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderCommand;
-import ru.avalc.ordering.service.domain.dto.create.CreateOrderResponse;
-import ru.avalc.ordering.service.domain.dto.create.OrderAddress;
-import ru.avalc.ordering.service.domain.dto.track.TrackOrderResponse;
 import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.ordering.system.domain.valueobject.Money;
 import ru.avalc.ordering.system.domain.valueobject.ProductID;
@@ -73,7 +73,7 @@ public class OrderDataMapper {
         );
     }
 
-    private List<OrderItem> orderItemsDtoToOrderItemsEntities(List<ru.avalc.ordering.service.domain.dto.create.OrderItem> items) {
+    private List<OrderItem> orderItemsDtoToOrderItemsEntities(List<ru.avalc.ordering.application.dto.create.OrderItem> items) {
         return items.stream()
                 .map(item ->
                         OrderItem.builder()

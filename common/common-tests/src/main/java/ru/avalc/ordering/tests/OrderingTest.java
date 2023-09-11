@@ -1,5 +1,8 @@
 package ru.avalc.ordering.tests;
 
+import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
+import ru.avalc.ordering.application.dto.create.OrderAddress;
+import ru.avalc.ordering.application.dto.create.OrderItem;
 import ru.avalc.ordering.domain.entity.Customer;
 import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.Product;
@@ -19,17 +22,89 @@ import java.util.UUID;
 
 public abstract class OrderingTest {
 
-    protected Restaurant restaurant;
-    protected Customer customer;
-    protected Order order;
-    protected final UUID CUSTOMER_ID = UUID.randomUUID();
-    protected final UUID RESTAURANT_ID = UUID.randomUUID();
-    protected final UUID PRODUCT_ID_1 = UUID.randomUUID();
-    protected final UUID PRODUCT_ID_2 = UUID.randomUUID();
-    protected final UUID ORDER_ID = UUID.randomUUID();
-    protected final BigDecimal PRICE = BigDecimal.valueOf(200);
+    protected static CreateOrderCommand createOrderCommand;
+    protected static CreateOrderCommand createOrderCommandWrongPrice;
+    protected static CreateOrderCommand createOrderCommandWrongProductPrice;
+    protected static Restaurant restaurant;
+    protected static Customer customer;
+    protected static Order order;
+    protected static final UUID CUSTOMER_ID = UUID.randomUUID();
+    protected static final UUID RESTAURANT_ID = UUID.randomUUID();
+    protected static final UUID PRODUCT_ID_1 = UUID.randomUUID();
+    protected static final UUID PRODUCT_ID_2 = UUID.randomUUID();
+    protected static final UUID ORDER_ID = UUID.randomUUID();
+    protected static final BigDecimal PRICE = BigDecimal.valueOf(200);
 
-    public void init() {
+    static {
+        createOrderCommand = CreateOrderCommand.builder()
+                .customerID(CUSTOMER_ID)
+                .restaurantID(RESTAURANT_ID)
+                .address(OrderAddress.builder()
+                        .street("st_1")
+                        .postalCode("1")
+                        .city("city_1")
+                        .build())
+                .price(PRICE)
+                .items(List.of(OrderItem.builder()
+                                .productID(PRODUCT_ID_1)
+                                .quantity(1)
+                                .price(BigDecimal.valueOf(50))
+                                .subTotal(BigDecimal.valueOf(50))
+                                .build(),
+                        OrderItem.builder()
+                                .productID(PRODUCT_ID_2)
+                                .quantity(3)
+                                .price(BigDecimal.valueOf(50))
+                                .subTotal(BigDecimal.valueOf(150))
+                                .build()))
+                .build();
+
+        createOrderCommandWrongPrice = CreateOrderCommand.builder()
+                .customerID(CUSTOMER_ID)
+                .restaurantID(RESTAURANT_ID)
+                .address(OrderAddress.builder()
+                        .street("st_1")
+                        .postalCode("1")
+                        .city("city_1")
+                        .build())
+                .price(BigDecimal.valueOf(250))
+                .items(List.of(OrderItem.builder()
+                                .productID(PRODUCT_ID_1)
+                                .quantity(1)
+                                .price(BigDecimal.valueOf(50))
+                                .subTotal(BigDecimal.valueOf(50))
+                                .build(),
+                        OrderItem.builder()
+                                .productID(PRODUCT_ID_2)
+                                .quantity(3)
+                                .price(BigDecimal.valueOf(50))
+                                .subTotal(BigDecimal.valueOf(150))
+                                .build()))
+                .build();
+
+        createOrderCommandWrongProductPrice = CreateOrderCommand.builder()
+                .customerID(CUSTOMER_ID)
+                .restaurantID(RESTAURANT_ID)
+                .address(OrderAddress.builder()
+                        .street("st_1")
+                        .postalCode("1")
+                        .city("city_1")
+                        .build())
+                .price(BigDecimal.valueOf(210))
+                .items(List.of(OrderItem.builder()
+                                .productID(PRODUCT_ID_1)
+                                .quantity(1)
+                                .price(BigDecimal.valueOf(60))
+                                .subTotal(BigDecimal.valueOf(60))
+                                .build(),
+                        OrderItem.builder()
+                                .productID(PRODUCT_ID_2)
+                                .quantity(3)
+                                .price(BigDecimal.valueOf(50))
+                                .subTotal(BigDecimal.valueOf(150))
+                                .build()))
+                .build();
+
         customer = Customer.builder().customerID(new CustomerID(CUSTOMER_ID)).build();
 
         restaurant = Restaurant.builder()

@@ -1,22 +1,19 @@
-package ru.avalc.ordering.service.domain.dto.track;
+package ru.avalc.ordering.application.dto.create;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import ru.avalc.ordering.system.domain.valueobject.OrderStatus;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 /**
  * @author Alexei Valchuk, 07.09.2023, email: a.valchukav@gmail.com
  */
 
+
 @Getter
-@Builder
-@AllArgsConstructor
-public class TrackOrderResponse {
+public class CreateOrderResponse {
 
     @NotNull
     private final UUID orderTrackingID;
@@ -24,5 +21,13 @@ public class TrackOrderResponse {
     @NotNull
     private final OrderStatus orderStatus;
 
-    private final List<String> failureMessages;
+    @NotNull
+    private final String message;
+
+    @Builder
+    private CreateOrderResponse(UUID orderTrackingID, OrderStatus orderStatus, String message) {
+        this.orderTrackingID = orderTrackingID;
+        this.orderStatus = orderStatus;
+        this.message = message;
+    }
 }
