@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.avalc.ordering.domain.entity.Customer;
 import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
@@ -21,11 +20,11 @@ import ru.avalc.ordering.service.domain.ports.output.repository.CustomerReposito
 import ru.avalc.ordering.service.domain.ports.output.repository.OrderRepository;
 import ru.avalc.ordering.service.domain.ports.output.repository.RestaurantRepository;
 import ru.avalc.ordering.system.domain.valueobject.*;
+import ru.avalc.ordering.tests.OrderingTest;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +37,7 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = OrderConfigurationTest.class)
-public class OrderApplicationServiceTest {
+public class OrderApplicationServiceTest extends OrderingTest {
 
     @Autowired
     private OrderApplicationService orderApplicationService;
@@ -58,15 +57,11 @@ public class OrderApplicationServiceTest {
     private CreateOrderCommand createOrderCommand;
     private CreateOrderCommand createOrderCommandWrongPrice;
     private CreateOrderCommand createOrderCommandWrongProductPrice;
-    private final UUID CUSTOMER_ID = UUID.randomUUID();
-    private final UUID RESTAURANT_ID = UUID.randomUUID();
-    private final UUID PRODUCT_ID_1 = UUID.randomUUID();
-    private final UUID PRODUCT_ID_2 = UUID.randomUUID();
-    private final UUID ORDER_ID = UUID.randomUUID();
-    private final BigDecimal PRICE = BigDecimal.valueOf(200);
 
+    @Override
     @BeforeAll
     public void init() {
+        super.init();
         createOrderCommand = CreateOrderCommand.builder()
                 .customerID(CUSTOMER_ID)
                 .restaurantID(RESTAURANT_ID)
@@ -136,26 +131,7 @@ public class OrderApplicationServiceTest {
                                 .build()))
                 .build();
 
-        Customer customer = Customer.builder().customerID(new CustomerID(CUSTOMER_ID)).build();
-
-        Restaurant restaurant = Restaurant.builder()
-                .restaurantID(new RestaurantID(RESTAURANT_ID))
-                .active(true)
-                .products(List.of(
-                        Product.builder()
-                                .productID(new ProductID(PRODUCT_ID_1))
-                                .name("prod_1")
-                                .price(new Money(50))
-                                .build(),
-                        Product.builder()
-                                .productID(new ProductID(PRODUCT_ID_2))
-                                .name("prod_2")
-                                .price(new Money(50))
-                                .build()
-                ))
-                .build();
-
-        Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
+        order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
         order.setId(new OrderID(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
