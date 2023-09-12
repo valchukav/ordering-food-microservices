@@ -22,6 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OrderEntity {
 
+    public static final String FAILURE_MESSAGE_DELIMITER = "; ";
+
     @Id
     private UUID id;
     private UUID customerID;
