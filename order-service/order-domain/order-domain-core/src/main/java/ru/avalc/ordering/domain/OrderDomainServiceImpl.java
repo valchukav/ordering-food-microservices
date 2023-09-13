@@ -2,7 +2,6 @@ package ru.avalc.ordering.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.avalc.ordering.domain.entity.Order;
-import ru.avalc.ordering.domain.entity.OrderItem;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
 import ru.avalc.ordering.domain.event.OrderCancelledEvent;
@@ -13,9 +12,6 @@ import ru.avalc.ordering.domain.exception.OrderDomainException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @author Alexei Valchuk, 07.09.2023, email: a.valchukav@gmail.com
@@ -69,13 +65,12 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     private static void setOrderProductInformation(Order order, Restaurant restaurant) {
-        Map<Product, OrderItem> map = order.getOrderItems().stream()
-                .collect(Collectors.toMap(OrderItem::getProduct, Function.identity()));
-
-        restaurant.getProducts().forEach(restProduct -> {
-            if (map.containsKey(restProduct)) {
-                map.get(restProduct).getProduct().updateWithConfirmedNameAndPrice(restProduct.getName(), restProduct.getPrice());
+        order.getOrderItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
+            Product currentProduct = orderItem.getProduct();
+            if (currentProduct.equals(restaurantProduct)) {
+                currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
+                        restaurantProduct.getPrice());
             }
-        });
+        }));
     }
 }
