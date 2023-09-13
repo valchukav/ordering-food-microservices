@@ -14,5 +14,6 @@
     <modules>
         <module>payment-domain-core</module>
         <module>payment-application-service</module>
+        <module>payment-application-dto</module>
     </modules>
 </project>

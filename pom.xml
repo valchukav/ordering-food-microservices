@@ -96,6 +96,16 @@
             </dependency>
             <dependency>
                 <groupId>ru.avalc</groupId>
+                <artifactId>payment-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>payment-application-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
                 <artifactId>common-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
