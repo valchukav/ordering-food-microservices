@@ -67,6 +67,7 @@ public class OrderDataAccessMapper {
                 .id(deliveryAddress.getId())
                 .city(deliveryAddress.getCity())
                 .postalCode(deliveryAddress.getPostalCode())
+                .street(deliveryAddress.getStreet())
                 .build();
     }
 
