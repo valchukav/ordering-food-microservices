@@ -58,6 +58,6 @@ public class GlobalExceptionHandler {
     private String extractViolationsFromException(ConstraintViolationException exception) {
         return exception.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(", "));
     }
 }
