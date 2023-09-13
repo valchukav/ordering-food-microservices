@@ -14,6 +14,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
         format_sql: true
+    hibernate:
+      ddl-auto: none
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: postgres
@@ -22,7 +24,7 @@ spring:
   sql:
     init:
       platform: postgres
-      schema-locations: classpath:init-schema.sql
+      schema-locations: classpath:schema.sql
       data-locations:
-        - classpath:init-data.sql
+        - classpath:data.sql
       mode: always
