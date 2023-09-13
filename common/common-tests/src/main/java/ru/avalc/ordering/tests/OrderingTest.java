@@ -28,10 +28,10 @@ public abstract class OrderingTest {
     protected static Restaurant restaurant;
     protected static Customer customer;
     protected static Order order;
-    protected static final UUID CUSTOMER_ID = UUID.randomUUID();
-    protected static final UUID RESTAURANT_ID = UUID.randomUUID();
-    protected static final UUID PRODUCT_ID_1 = UUID.randomUUID();
-    protected static final UUID PRODUCT_ID_2 = UUID.randomUUID();
+    protected static final UUID CUSTOMER_ID = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb41");
+    protected static final UUID RESTAURANT_ID = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb45");
+    protected static final UUID PRODUCT_ID_1 = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb48");
+    protected static final UUID PRODUCT_ID_2 = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb48");
     protected static final UUID ORDER_ID = UUID.randomUUID();
     protected static final BigDecimal PRICE = BigDecimal.valueOf(200);
 
