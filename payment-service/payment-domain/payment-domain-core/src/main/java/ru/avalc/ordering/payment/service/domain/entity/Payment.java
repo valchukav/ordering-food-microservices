@@ -15,6 +15,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.avalc.ordering.system.domain.DomainConstants.UTC;
+
 /**
  * @author Alexei Valchuk, 13.09.2023, email: a.valchukav@gmail.com
  */
@@ -33,7 +35,7 @@ public class Payment extends AggregateRoot<PaymentID> {
 
     public void initPayment() {
         setId(new PaymentID(UUID.randomUUID()));
-        createdAt = ZonedDateTime.now(ZoneId.of("UTC"));
+        createdAt = ZonedDateTime.now(ZoneId.of(UTC));
     }
 
     public void validatePayment(List<String> failureMessages) {
