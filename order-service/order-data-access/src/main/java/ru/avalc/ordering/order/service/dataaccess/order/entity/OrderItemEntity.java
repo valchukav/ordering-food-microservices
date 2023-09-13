@@ -26,12 +26,15 @@ public class OrderItemEntity {
 
     @Id
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "order_id")
     private OrderEntity order;
 
+    @Column(name = "product_id")
     private UUID productID;
     private BigDecimal price;
     private Integer quantity;
+
+    @Column(name = "sub_total")
     private BigDecimal subTotal;
 
     @Override

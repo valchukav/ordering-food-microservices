@@ -28,11 +28,18 @@ public class OrderEntity {
 
     @Id
     private UUID id;
+
+    @Column(name = "customer_id")
     private UUID customerID;
+
+    @Column(name = "restaurant_id")
     private UUID restaurantID;
+
+    @Column(name = "tracking_id")
     private UUID trackingID;
     private BigDecimal price;
 
+    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private String failureMessages;

@@ -2,10 +2,7 @@ package ru.avalc.ordering.order.service.dataaccess.restaurant.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
@@ -25,14 +22,23 @@ import java.util.UUID;
 public class RestaurantEntity {
 
     @Id
+    @Column(name = "restaurant_id")
     private UUID restaurantID;
 
     @Id
+    @Column(name = "product_id")
     private UUID productID;
 
+    @Column(name = "restaurant_name")
     private String restaurantName;
+
+    @Column(name = "restaurant_active")
     private Boolean restaurantActive;
+
+    @Column(name = "product_name")
     private String productName;
+
+    @Column(name = "product_price")
     private BigDecimal productPrice;
 
     @Override
