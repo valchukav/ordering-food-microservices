@@ -6,4 +6,5 @@ package ru.avalc.ordering.system.domain.event;
 
 public interface DomainEvent<T> {
 
+    void fire();
 }

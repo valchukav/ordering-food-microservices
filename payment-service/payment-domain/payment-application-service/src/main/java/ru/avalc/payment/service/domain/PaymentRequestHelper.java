@@ -17,6 +17,9 @@ import ru.avalc.payment.service.domain.mapper.PaymentDataMapper;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 import ru.avalc.payment.service.domain.ports.output.repository.PaymentRepository;
+import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentCancelledMessagePublisher;
+import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentCompletedMessagePublisher;
+import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentFailedMessagePublisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,9 @@ public class PaymentRequestHelper {
     private final PaymentRepository paymentRepository;
     private final CreditEntryRepository creditEntryRepository;
     private final CreditHistoryRepository creditHistoryRepository;
+    private final PaymentCompletedMessagePublisher paymentCompletedMessagePublisher;
+    private final PaymentCancelledMessagePublisher paymentCancelledMessagePublisher;
+    private final PaymentFailedMessagePublisher paymentFailedMessagePublisher;
 
     @Transactional
     public PaymentEvent persistPayment(PaymentRequest paymentRequest) {
@@ -87,9 +93,19 @@ public class PaymentRequestHelper {
         List<String> failureMessages = new ArrayList<>();
         PaymentEvent paymentEvent;
         if (isCancelled) {
-            paymentEvent = paymentDomainService.validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
+            paymentEvent = paymentDomainService.validateAndCancelPayment(payment,
+                    creditEntry,
+                    creditHistories,
+                    failureMessages,
+                    paymentCancelledMessagePublisher,
+                    paymentFailedMessagePublisher);
         } else {
-            paymentEvent = paymentDomainService.validateAndInitiatePayment(payment, creditEntry, creditHistories, failureMessages);
+            paymentEvent = paymentDomainService.validateAndInitiatePayment(payment,
+                    creditEntry,
+                    creditHistories,
+                    failureMessages,
+                    paymentCompletedMessagePublisher,
+                    paymentFailedMessagePublisher);
         }
         paymentRepository.save(payment);
         if (paymentEvent.getFailureMessages().isEmpty()) {
