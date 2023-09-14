@@ -13,9 +13,9 @@ import java.util.List;
 
 public class OrderApprovedEvent extends OrderApprovalEvent {
 
-    private final DomainEventPublisher<OrderApprovalEvent> domainEventPublisher;
+    private final DomainEventPublisher<OrderApprovedEvent> domainEventPublisher;
 
-    public OrderApprovedEvent(OrderApproval orderApproval, RestaurantID restaurantID, List<String> failureMessages, ZonedDateTime createdAt, DomainEventPublisher<OrderApprovalEvent> domainEventPublisher) {
+    public OrderApprovedEvent(OrderApproval orderApproval, RestaurantID restaurantID, List<String> failureMessages, ZonedDateTime createdAt, DomainEventPublisher<OrderApprovedEvent> domainEventPublisher) {
         super(orderApproval, restaurantID, failureMessages, createdAt);
         this.domainEventPublisher = domainEventPublisher;
     }
