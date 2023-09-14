@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import ru.avalc.ordering.payment.service.dataaccess.creditentry.mapper.CreditEntryDataAccessMapper;
 import ru.avalc.ordering.payment.service.dataaccess.creditentry.repository.CreditEntryJpaRepository;
 import ru.avalc.ordering.payment.service.domain.entity.CreditEntry;
+import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditEntryRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author Alexei Valchuk, 14.09.2023, email: a.valchukav@gmail.com
@@ -29,9 +29,9 @@ public class CreditEntryRepositoryImpl implements CreditEntryRepository {
     }
 
     @Override
-    public Optional<CreditEntry> findByCustomerId(UUID customerID) {
+    public Optional<CreditEntry> findByCustomerId(CustomerID customerID) {
         return creditEntryJpaRepository
-                .findByCustomerID(customerID)
+                .findByCustomerID(customerID.getValue())
                 .map(creditEntryDataAccessMapper::creditEntryEntityToCreditEntry);
     }
 }

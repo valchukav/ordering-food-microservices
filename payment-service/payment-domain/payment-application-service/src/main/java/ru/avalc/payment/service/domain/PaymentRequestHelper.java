@@ -12,6 +12,7 @@ import ru.avalc.ordering.payment.service.domain.event.PaymentEvent;
 import ru.avalc.ordering.payment.service.domain.exception.PaymentNotFoundException;
 import ru.avalc.ordering.payment.service.dto.PaymentRequest;
 import ru.avalc.ordering.system.domain.valueobject.CustomerID;
+import ru.avalc.ordering.system.domain.valueobject.OrderID;
 import ru.avalc.payment.service.domain.exception.PaymentApplicationServiceException;
 import ru.avalc.payment.service.domain.mapper.PaymentDataMapper;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditEntryRepository;
@@ -54,7 +55,7 @@ public class PaymentRequestHelper {
     @Transactional
     public PaymentEvent persistCancelledPayment(PaymentRequest paymentRequest) {
         log.info("Receive payment cancel event for order id: {}", paymentRequest.getOrderID());
-        Optional<Payment> optionalPayment = paymentRepository.findByOrderId(UUID.fromString(paymentRequest.getOrderID()));
+        Optional<Payment> optionalPayment = paymentRepository.findByOrderId(new OrderID(UUID.fromString(paymentRequest.getOrderID())));
         if (optionalPayment.isEmpty()) {
             String message = "Payment with order id: " + paymentRequest.getOrderID() + " could not be found";
             log.error(message);
@@ -66,7 +67,7 @@ public class PaymentRequestHelper {
     }
 
     private CreditEntry getCreditEntry(CustomerID customerID) {
-        Optional<CreditEntry> creditEntry = creditEntryRepository.findByCustomerId(customerID.getValue());
+        Optional<CreditEntry> creditEntry = creditEntryRepository.findByCustomerId(customerID);
         if (creditEntry.isEmpty()) {
             String message = "Could not find credit entry for customer with id: " + customerID.getValue();
             log.error(message);
@@ -77,7 +78,7 @@ public class PaymentRequestHelper {
     }
 
     private List<CreditHistory> getCreditHistory(CustomerID customerID) {
-        Optional<List<CreditHistory>> creditHistories = creditHistoryRepository.findByCustomerId(customerID.getValue());
+        Optional<List<CreditHistory>> creditHistories = creditHistoryRepository.findByCustomerId(customerID);
         if (creditHistories.isEmpty()) {
             String message = "Could not find credit history for customer with id: " + customerID.getValue();
             log.error(message);

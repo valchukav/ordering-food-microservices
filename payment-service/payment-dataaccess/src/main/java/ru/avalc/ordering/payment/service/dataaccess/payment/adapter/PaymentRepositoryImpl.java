@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import ru.avalc.ordering.payment.service.dataaccess.payment.mapper.PaymentDataAccessMapper;
 import ru.avalc.ordering.payment.service.dataaccess.payment.repository.PaymentJpaRepository;
 import ru.avalc.ordering.payment.service.domain.entity.Payment;
+import ru.avalc.ordering.system.domain.valueobject.OrderID;
 import ru.avalc.payment.service.domain.ports.output.repository.PaymentRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author Alexei Valchuk, 14.09.2023, email: a.valchukav@gmail.com
@@ -29,8 +29,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    public Optional<Payment> findByOrderId(UUID orderId) {
-        return paymentJpaRepository.findByOrderID(orderId)
+    public Optional<Payment> findByOrderId(OrderID orderId) {
+        return paymentJpaRepository.findByOrderID(orderId.getValue())
                 .map(paymentDataAccessMapper::paymentEntityToPayment);
     }
 }

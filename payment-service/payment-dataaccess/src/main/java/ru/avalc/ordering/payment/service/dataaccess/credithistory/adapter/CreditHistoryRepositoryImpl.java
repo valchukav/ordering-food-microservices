@@ -6,11 +6,11 @@ import ru.avalc.ordering.payment.service.dataaccess.credithistory.entity.CreditH
 import ru.avalc.ordering.payment.service.dataaccess.credithistory.mapper.CreditHistoryDataAccessMapper;
 import ru.avalc.ordering.payment.service.dataaccess.credithistory.repository.CreditHistoryJpaRepository;
 import ru.avalc.ordering.payment.service.domain.entity.CreditHistory;
+import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +31,9 @@ public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
     }
 
     @Override
-    public Optional<List<CreditHistory>> findByCustomerId(UUID customerID) {
+    public Optional<List<CreditHistory>> findByCustomerId(CustomerID customerID) {
         Optional<List<CreditHistoryEntity>> creditHistory =
-                creditHistoryJpaRepository.findByCustomerID(customerID);
+                creditHistoryJpaRepository.findByCustomerID(customerID.getValue());
         return creditHistory
                 .map(creditHistoryList ->
                         creditHistoryList.stream()
