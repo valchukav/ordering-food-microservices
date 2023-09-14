@@ -14,5 +14,6 @@
     <modules>
         <module>restaurant-domain-core</module>
         <module>restaurant-application-service</module>
+        <module>restaurant-application-dto</module>
     </modules>
 </project>

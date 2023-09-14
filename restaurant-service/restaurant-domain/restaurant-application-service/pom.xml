@@ -10,4 +10,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>restaurant-application-service</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>common-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-application-dto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+    </dependencies>
 </project>
