@@ -19,6 +19,7 @@ import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.ordering.system.domain.valueobject.Money;
 import ru.avalc.ordering.system.domain.valueobject.OrderID;
 import ru.avalc.ordering.system.domain.valueobject.PaymentStatus;
+import ru.avalc.ordering.tests.OrderingTest;
 import ru.avalc.payment.service.domain.exception.PaymentApplicationServiceException;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditHistoryRepository;
@@ -40,7 +41,7 @@ import static org.mockito.Mockito.when;
  */
 
 @SpringBootTest(classes = PaymentConfigurationTest.class)
-public class PaymentApplicationServiceTest {
+public class PaymentApplicationServiceTest extends OrderingTest {
 
     @Autowired
     private PaymentRequestHelper paymentRequestHelper;
@@ -56,8 +57,6 @@ public class PaymentApplicationServiceTest {
 
     private final UUID creditEntryID = UUID.randomUUID();
     private final String paymentRequestID = UUID.randomUUID().toString();
-    private final UUID orderID = UUID.randomUUID();
-    private final UUID customerID = UUID.randomUUID();
 
     private final BigDecimal creditHistory_1_amount = BigDecimal.valueOf(150);
     private final BigDecimal creditHistory_2_amount = BigDecimal.valueOf(50);
@@ -77,33 +76,33 @@ public class PaymentApplicationServiceTest {
     public void init() {
         CreditHistory creditHistory_1 = CreditHistory.builder()
                 .creditHistoryID(new CreditHistoryID(UUID.randomUUID()))
-                .customerID(new CustomerID(customerID))
+                .customerID(new CustomerID(CUSTOMER_ID))
                 .transactionType(TransactionType.CREDIT)
                 .amount(new Money(creditHistory_1_amount))
                 .build();
 
         CreditHistory creditHistory_2 = CreditHistory.builder()
                 .creditHistoryID(new CreditHistoryID(UUID.randomUUID()))
-                .customerID(new CustomerID(customerID))
+                .customerID(new CustomerID(CUSTOMER_ID))
                 .transactionType(TransactionType.DEBIT)
                 .amount(new Money(creditHistory_2_amount))
                 .build();
 
         payment = Payment.builder()
-                .customerID(new CustomerID(customerID))
-                .orderID(new OrderID(orderID))
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .orderID(new OrderID(ORDER_ID))
                 .price(new Money(50))
                 .build();
 
         negativePayment = Payment.builder()
-                .customerID(new CustomerID(customerID))
-                .orderID(new OrderID(orderID))
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .orderID(new OrderID(ORDER_ID))
                 .price(new Money(-50))
                 .build();
 
         paymentWithHugeAmount = Payment.builder()
-                .customerID(new CustomerID(customerID))
-                .orderID(new OrderID(orderID))
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .orderID(new OrderID(ORDER_ID))
                 .price(new Money(170))
                 .build();
 
@@ -111,34 +110,34 @@ public class PaymentApplicationServiceTest {
 
         creditEntry = CreditEntry.builder()
                 .creditEntityID(new CreditEntityID(creditEntryID))
-                .customerID(new CustomerID(customerID))
+                .customerID(new CustomerID(CUSTOMER_ID))
                 .totalCreditAmount(new Money(totalCreditEntryAmount))
                 .build();
 
         paymentRequest = PaymentRequest.builder()
                 .id(paymentRequestID)
-                .orderID(orderID.toString())
-                .customerID(customerID.toString())
+                .orderID(ORDER_ID.toString())
+                .customerID(CUSTOMER_ID.toString())
                 .price(payment.getPrice().getAmount())
                 .build();
 
         paymentRequestWithHugeAmount = PaymentRequest.builder()
                 .id(paymentRequestID)
-                .orderID(orderID.toString())
-                .customerID(customerID.toString())
+                .orderID(ORDER_ID.toString())
+                .customerID(CUSTOMER_ID.toString())
                 .price(paymentWithHugeAmount.getPrice().getAmount())
                 .build();
 
         paymentRequestWithNegativeAmount = PaymentRequest.builder()
                 .id(paymentRequestID)
-                .orderID(orderID.toString())
-                .customerID(customerID.toString())
+                .orderID(ORDER_ID.toString())
+                .customerID(CUSTOMER_ID.toString())
                 .price(negativePayment.getPrice().getAmount())
                 .build();
 
         when(paymentRepository.findByOrderId(any())).thenReturn(Optional.of(payment));
-        when(creditEntryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.of(creditEntry));
-        when(creditHistoryRepository.findByCustomerId(new CustomerID(customerID)))
+        when(creditEntryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.of(creditEntry));
+        when(creditHistoryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID)))
                 .thenReturn(Optional.of(new ArrayList<>(List.of(creditHistory_1, creditHistory_2))));
         when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
     }
@@ -184,11 +183,11 @@ public class PaymentApplicationServiceTest {
     public void completePaymentWithInvalidCreditEntry() {
         CreditEntry creditEntry = CreditEntry.builder()
                 .creditEntityID(new CreditEntityID(creditEntryID))
-                .customerID(new CustomerID(customerID))
+                .customerID(new CustomerID(CUSTOMER_ID))
                 .totalCreditAmount(new Money(2302))
                 .build();
 
-        when(creditEntryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.of(creditEntry));
+        when(creditEntryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.of(creditEntry));
 
         PaymentEvent paymentEvent = paymentRequestHelper.persistPayment(paymentRequest);
 
@@ -200,14 +199,14 @@ public class PaymentApplicationServiceTest {
 
     @Test
     public void completePaymentWithEmptyCreditEntry() {
-        when(creditEntryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.empty());
+        when(creditEntryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.empty());
 
         assertThrows(PaymentApplicationServiceException.class, () -> paymentRequestHelper.persistPayment(paymentRequest));
     }
 
     @Test
     public void completePaymentWithEmptyCreditHistory() {
-        when(creditHistoryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.empty());
+        when(creditHistoryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.empty());
 
         assertThrows(PaymentApplicationServiceException.class, () -> paymentRequestHelper.persistPayment(paymentRequest));
     }
@@ -238,14 +237,14 @@ public class PaymentApplicationServiceTest {
 
     @Test
     public void cancelPaymentWithEmptyCreditEntry() {
-        when(creditEntryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.empty());
+        when(creditEntryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.empty());
 
         assertThrows(PaymentApplicationServiceException.class, () -> paymentRequestHelper.persistCancelledPayment(paymentRequest));
     }
 
     @Test
     public void cancelPaymentWithEmptyCreditHistory() {
-        when(creditHistoryRepository.findByCustomerId(new CustomerID(customerID))).thenReturn(Optional.empty());
+        when(creditHistoryRepository.findByCustomerId(new CustomerID(CUSTOMER_ID))).thenReturn(Optional.empty());
 
         assertThrows(PaymentApplicationServiceException.class, () -> paymentRequestHelper.persistCancelledPayment(paymentRequest));
     }
