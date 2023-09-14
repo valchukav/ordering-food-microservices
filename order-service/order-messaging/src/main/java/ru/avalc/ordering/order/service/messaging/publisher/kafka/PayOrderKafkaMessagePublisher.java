@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.avalc.ordering.domain.event.OrderPaidEvent;
 import ru.avalc.ordering.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
+import ru.avalc.ordering.kafka.producer.KafkaMessageHelper;
 import ru.avalc.ordering.kafka.producer.service.KafkaProducer;
 import ru.avalc.ordering.order.service.messaging.mapper.OrderMessagingDataMapper;
 import ru.avalc.ordering.service.domain.config.OrderServiceConfigData;
@@ -22,7 +23,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, RestaurantApprovalRequestAvroModel> kafkaProducer;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
     @Override
     public void publish(OrderPaidEvent domainEvent) {
@@ -37,7 +38,7 @@ public class PayOrderKafkaMessagePublisher implements OrderPaidRestaurantRequest
                     orderServiceConfigData.getRestaurantApprovalRequestTopicName(),
                     orderID,
                     restaurantApprovalRequestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallback(
+                    kafkaMessageHelper.getKafkaCallback(
                             orderServiceConfigData.getPaymentResponseTopicName(),
                             restaurantApprovalRequestAvroModel,
                             orderID,

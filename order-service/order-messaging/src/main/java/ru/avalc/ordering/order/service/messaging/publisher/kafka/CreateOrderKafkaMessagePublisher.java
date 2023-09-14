@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.kafka.order.avro.model.PaymentRequestAvroModel;
+import ru.avalc.ordering.kafka.producer.KafkaMessageHelper;
 import ru.avalc.ordering.kafka.producer.service.KafkaProducer;
 import ru.avalc.ordering.order.service.messaging.mapper.OrderMessagingDataMapper;
 import ru.avalc.ordering.service.domain.config.OrderServiceConfigData;
@@ -22,7 +23,7 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
-    private final OrderKafkaMessageHelper orderKafkaMessageHelper;
+    private final KafkaMessageHelper kafkaMessageHelper;
 
     @Override
     public void publish(OrderCreatedEvent domainEvent) {
@@ -36,7 +37,7 @@ public class CreateOrderKafkaMessagePublisher implements OrderCreatedPaymentRequ
                     orderServiceConfigData.getPaymentRequestTopicName(),
                     orderID,
                     paymentRequestAvroModel,
-                    orderKafkaMessageHelper.getKafkaCallback(
+                    kafkaMessageHelper.getKafkaCallback(
                             orderServiceConfigData.getPaymentResponseTopicName(),
                             paymentRequestAvroModel,
                             orderID,
