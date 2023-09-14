@@ -111,6 +111,16 @@
             </dependency>
             <dependency>
                 <groupId>ru.avalc</groupId>
+                <artifactId>payment-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>payment-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
                 <artifactId>common-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
