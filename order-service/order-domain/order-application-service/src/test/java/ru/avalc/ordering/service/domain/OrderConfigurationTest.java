@@ -7,6 +7,7 @@ import ru.avalc.ordering.domain.OrderDomainService;
 import ru.avalc.ordering.domain.OrderDomainServiceImpl;
 import ru.avalc.ordering.service.domain.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
 import ru.avalc.ordering.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
+import ru.avalc.ordering.service.domain.ports.output.message.publisher.restaurant.OrderPaidRestaurantRequestMessagePublisher;
 import ru.avalc.ordering.service.domain.ports.output.repository.CustomerRepository;
 import ru.avalc.ordering.service.domain.ports.output.repository.OrderRepository;
 import ru.avalc.ordering.service.domain.ports.output.repository.RestaurantRepository;
@@ -21,6 +22,11 @@ public class OrderConfigurationTest {
     @Bean
     public OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher() {
         return Mockito.mock(OrderCreatedPaymentRequestMessagePublisher.class);
+    }
+
+    @Bean
+    public OrderPaidRestaurantRequestMessagePublisher OrderPaidRestaurantRequestMessagePublisher() {
+        return Mockito.mock(OrderPaidRestaurantRequestMessagePublisher.class);
     }
 
     @Bean
