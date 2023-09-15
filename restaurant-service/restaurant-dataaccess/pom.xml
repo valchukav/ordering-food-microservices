@@ -11,4 +11,26 @@
 
     <artifactId>restaurant-dataaccess</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-application-dto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-application-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>common-dataaccess</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+    </dependencies>
 </project>
