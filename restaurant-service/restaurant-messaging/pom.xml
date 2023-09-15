@@ -10,4 +10,27 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>restaurant-messaging</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-application-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>restaurant-application-dto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>kafka-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>kafka-consumer</artifactId>
+        </dependency>
+    </dependencies>
 </project>
