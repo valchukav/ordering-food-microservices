@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 
 @EnableJpaRepositories(basePackages = "ru.avalc.ordering.payment.service.dataaccess")
-@EntityScan(basePackages = "ru.avalc.ordering.order.service.dataaccess")
+@EntityScan(basePackages = "ru.avalc.ordering.payment.service.dataaccess")
 @SpringBootApplication(scanBasePackages = {"ru.avalc.ordering", "ru.avalc.payment"})
 public class PaymentServiceApplication {
 
