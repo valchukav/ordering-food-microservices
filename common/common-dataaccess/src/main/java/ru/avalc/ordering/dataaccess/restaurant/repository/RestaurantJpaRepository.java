@@ -1,9 +1,9 @@
-package ru.avalc.ordering.order.service.dataaccess.restaurant.repository;
+package ru.avalc.ordering.dataaccess.restaurant.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.entity.RestaurantEntity;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.entity.RestaurantEntityID;
+import ru.avalc.ordering.dataaccess.restaurant.entity.RestaurantEntity;
+import ru.avalc.ordering.dataaccess.restaurant.entity.RestaurantEntityID;
 
 import java.util.List;
 import java.util.Optional;

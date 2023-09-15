@@ -1,4 +1,4 @@
-package ru.avalc.ordering.order.service.dataaccess.restaurant.exception;
+package ru.avalc.ordering.dataaccess.restaurant.exception;
 
 /**
  * @author Alexei Valchuk, 12.09.2023, email: a.valchukav@gmail.com

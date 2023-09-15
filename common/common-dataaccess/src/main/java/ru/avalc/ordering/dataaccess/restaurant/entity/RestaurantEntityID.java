@@ -1,4 +1,4 @@
-package ru.avalc.ordering.order.service.dataaccess.restaurant.entity;
+package ru.avalc.ordering.dataaccess.restaurant.entity;
 
 import lombok.*;
 

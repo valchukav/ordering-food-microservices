@@ -1,4 +1,4 @@
-package ru.avalc.ordering.order.service.dataaccess.restaurant.entity;
+package ru.avalc.ordering.dataaccess.restaurant.entity;
 
 import lombok.*;
 
@@ -40,6 +40,9 @@ public class RestaurantEntity {
 
     @Column(name = "product_price")
     private BigDecimal productPrice;
+
+    @Column(name = "product_available")
+    private Boolean productAvailable;
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,10 @@
 package ru.avalc.ordering.order.service.dataaccess.restaurant.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.dataaccess.restaurant.entity.RestaurantEntity;
+import ru.avalc.ordering.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.entity.RestaurantEntity;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import ru.avalc.ordering.system.domain.valueobject.Money;
 import ru.avalc.ordering.system.domain.valueobject.ProductID;
 import ru.avalc.ordering.system.domain.valueobject.RestaurantID;

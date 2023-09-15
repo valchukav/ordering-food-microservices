@@ -2,10 +2,10 @@ package ru.avalc.ordering.order.service.dataaccess.restaurant.adapter;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.dataaccess.restaurant.entity.RestaurantEntity;
+import ru.avalc.ordering.dataaccess.restaurant.repository.RestaurantJpaRepository;
 import ru.avalc.ordering.domain.entity.Restaurant;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.entity.RestaurantEntity;
 import ru.avalc.ordering.order.service.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
-import ru.avalc.ordering.order.service.dataaccess.restaurant.repository.RestaurantJpaRepository;
 import ru.avalc.ordering.service.domain.ports.output.repository.RestaurantRepository;
 
 import java.util.List;
