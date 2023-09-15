@@ -13,6 +13,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "restaurant-service")
 public class RestaurantServiceConfig {
 
-    private final String restaurantApprovalRequestTopicName;
-    private final String restaurantApprovalResponseTopicName;
+    private String restaurantApprovalRequestTopicName;
+    private String restaurantApprovalResponseTopicName;
 }
