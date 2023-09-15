@@ -7,6 +7,7 @@ import ru.avalc.ordering.domain.valueobject.TrackingID;
 import ru.avalc.ordering.order.service.dataaccess.order.mapper.OrderDataAccessMapper;
 import ru.avalc.ordering.order.service.dataaccess.order.repository.OrderJpaRepository;
 import ru.avalc.ordering.service.domain.ports.output.repository.OrderRepository;
+import ru.avalc.ordering.system.domain.valueobject.OrderID;
 
 import java.util.Optional;
 
@@ -30,5 +31,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Optional<Order> findByTrackingID(TrackingID trackingID) {
         return orderJpaRepository.findByTrackingID(trackingID.getValue())
                 .map(mapper::orderEntityToOrder);
+    }
+
+    @Override
+    public Optional<Order> findByOrderID(OrderID orderID) {
+        return orderJpaRepository.findById(orderID.getValue()).map(mapper::orderEntityToOrder);
     }
 }
