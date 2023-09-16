@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import ru.avalc.ordering.system.domain.valueobject.OrderStatus;
 
 import javax.persistence.*;
@@ -47,7 +48,8 @@ public class OrderEntity {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private OrderAddressEntity orderAddress;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @BatchSize(size = 50)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItemEntity> items;
 
     public static OrderEntityBuilder builder() {
