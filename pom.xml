@@ -157,6 +157,11 @@
             </dependency>
             <dependency>
                 <groupId>ru.avalc</groupId>
+                <artifactId>outbox</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
                 <artifactId>common-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
