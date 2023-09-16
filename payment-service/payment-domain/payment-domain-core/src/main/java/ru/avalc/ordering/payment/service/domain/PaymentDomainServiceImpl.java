@@ -101,7 +101,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
         Money totalDebitHistory = getTotalHistoryAmount(creditHistories, TransactionType.DEBIT);
 
         if (totalDebitHistory.isGreaterThan(totalCreditHistory)) {
-            String message = "Customer with id " + creditEntry.getCustomerID().getValue() + "does not have enough credit according to credit history";
+            String message = "Customer with id " + creditEntry.getCustomerID().getValue() + " does not have enough credit according to credit history";
             log.error(message);
             failureMessages.add(message);
         }

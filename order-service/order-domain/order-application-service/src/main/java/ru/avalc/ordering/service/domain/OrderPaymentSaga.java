@@ -33,7 +33,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEven
         Order order = orderSagaHelper.findOrder(paymentResponse.getOrderID());
         OrderPaidEvent orderPaidEvent = orderDomainService.payOrder(order, orderPaidRestaurantRequestMessagePublisher);
         orderSagaHelper.saveOrder(order);
-        log.info("Order with id: {} is paid", order.getId());
+        log.info("Order with id: {} is paid", order.getId().getValue().toString());
         return orderPaidEvent;
     }
 
@@ -44,7 +44,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEven
         Order order = orderSagaHelper.findOrder(paymentResponse.getOrderID());
         orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
         orderSagaHelper.saveOrder(order);
-        log.info("Order with id: {} is cancelled", order.getId());
+        log.info("Order with id: {} is cancelled", order.getId().getValue().toString());
         return EmptyEvent.getInstance();
     }
 }
