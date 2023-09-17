@@ -9,11 +9,10 @@ import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.OrderItem;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
+import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.domain.valueobject.StreetAddress;
-import ru.avalc.ordering.system.domain.valueobject.CustomerID;
-import ru.avalc.ordering.system.domain.valueobject.Money;
-import ru.avalc.ordering.system.domain.valueobject.ProductID;
-import ru.avalc.ordering.system.domain.valueobject.RestaurantID;
+import ru.avalc.ordering.service.domain.outbox.model.payment.OrderPaymentEventPayload;
+import ru.avalc.ordering.system.domain.valueobject.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -61,6 +60,16 @@ public class OrderDataMapper {
                 .orderTrackingID(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(order.getFailureMessages())
+                .build();
+    }
+
+    public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerID(orderCreatedEvent.getOrder().getCustomerID().getValue().toString())
+                .orderID(orderCreatedEvent.getOrder().getId().getValue().toString())
+                .price(orderCreatedEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCreatedEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
                 .build();
     }
 

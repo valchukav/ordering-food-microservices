@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.ordering.saga.SagaStatus;
+import ru.avalc.ordering.system.domain.valueobject.OrderStatus;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public abstract class OutboxMessage {
     private ZonedDateTime processedAt;
     private String type;
     private String payload;
+    private OrderStatus orderStatus;
     private SagaStatus sagaStatus;
     private OutboxStatus outboxStatus;
     private int version;
