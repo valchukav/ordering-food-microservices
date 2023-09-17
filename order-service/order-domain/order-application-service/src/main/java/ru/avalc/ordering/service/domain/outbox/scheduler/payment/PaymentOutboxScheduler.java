@@ -33,7 +33,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
             initialDelayString = "${order-service.outbox-scheduler-initial-delay}")
     public void processOutboxMessage() {
         Optional<List<OrderPaymentOutboxMessage>> paymentOutboxMessagesResponse
-                = paymentOutboxHelper.getPaymentOutboxMessage(OutboxStatus.STARTED, SagaStatus.STARTED, SagaStatus.COMPENSATING);
+                = paymentOutboxHelper.getOutboxMessage(OutboxStatus.STARTED, SagaStatus.STARTED, SagaStatus.COMPENSATING);
 
         if (paymentOutboxMessagesResponse.isPresent() && paymentOutboxMessagesResponse.get().size() > 0) {
             List<OrderPaymentOutboxMessage> outboxMessages = paymentOutboxMessagesResponse.get();

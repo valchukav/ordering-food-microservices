@@ -29,7 +29,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
     @Scheduled(cron = "@midnight")
     public void processOutboxMessage() {
 
-        Optional<List<OrderPaymentOutboxMessage>> paymentOutboxMessagesResponse = paymentOutboxHelper.getPaymentOutboxMessage(
+        Optional<List<OrderPaymentOutboxMessage>> paymentOutboxMessagesResponse = paymentOutboxHelper.getOutboxMessage(
                 OutboxStatus.COMPLETED,
                 SagaStatus.SUCCEEDED,
                 SagaStatus.FAILED,
@@ -43,7 +43,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
                     outboxMessages.stream().map(OutboxMessage::getPayload)
                             .collect(Collectors.joining("\n")));
 
-            paymentOutboxHelper.deletePaymentOutboxMessage(
+            paymentOutboxHelper.deleteOutboxMessage(
                     OutboxStatus.COMPLETED,
                     SagaStatus.SUCCEEDED,
                     SagaStatus.FAILED,
