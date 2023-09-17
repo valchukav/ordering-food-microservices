@@ -1,7 +1,6 @@
 package ru.avalc.ordering.domain.event;
 
 import ru.avalc.ordering.domain.entity.Order;
-import ru.avalc.ordering.system.domain.event.publisher.DomainEventPublisher;
 
 import java.time.ZonedDateTime;
 
@@ -11,15 +10,7 @@ import java.time.ZonedDateTime;
 
 public class OrderCreatedEvent extends OrderEvent {
 
-    private final DomainEventPublisher<OrderCreatedEvent> domainEventPublisher;
-
-    public OrderCreatedEvent(Order order, ZonedDateTime createdAt, DomainEventPublisher<OrderCreatedEvent> domainEventPublisher) {
+    public OrderCreatedEvent(Order order, ZonedDateTime createdAt) {
         super(order, createdAt);
-        this.domainEventPublisher = domainEventPublisher;
-    }
-
-    @Override
-    public void fire() {
-        domainEventPublisher.publish(this);
     }
 }
