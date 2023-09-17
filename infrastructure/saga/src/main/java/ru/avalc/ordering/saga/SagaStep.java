@@ -1,14 +1,12 @@
 package ru.avalc.ordering.saga;
 
-import ru.avalc.ordering.system.domain.event.DomainEvent;
-
 /**
  * @author Alexei Valchuk, 15.09.2023, email: a.valchukav@gmail.com
  */
 
-public interface SagaStep<T, S extends DomainEvent<?>, U extends DomainEvent<?>> {
+public interface SagaStep<T> {
 
-    S process(T data);
+    void process(T data);
 
-    U rollback(T data);
+    void rollback(T data);
 }

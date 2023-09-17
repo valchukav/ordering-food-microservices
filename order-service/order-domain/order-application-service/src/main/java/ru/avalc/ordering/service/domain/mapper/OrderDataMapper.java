@@ -10,7 +10,10 @@ import ru.avalc.ordering.domain.entity.OrderItem;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
+import ru.avalc.ordering.domain.event.OrderPaidEvent;
 import ru.avalc.ordering.domain.valueobject.StreetAddress;
+import ru.avalc.ordering.service.domain.outbox.model.approval.OrderApprovalEventPayload;
+import ru.avalc.ordering.service.domain.outbox.model.approval.OrderApprovalEventProduct;
 import ru.avalc.ordering.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import ru.avalc.ordering.system.domain.valueobject.*;
 
@@ -70,6 +73,21 @@ public class OrderDataMapper {
                 .price(orderCreatedEvent.getOrder().getPrice().getAmount())
                 .createdAt(orderCreatedEvent.getCreatedAt())
                 .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+                .build();
+    }
+
+    public OrderApprovalEventPayload orderPaidEventToOrderApprovalEventPayload(OrderPaidEvent orderPaidEvent) {
+        return OrderApprovalEventPayload.builder()
+                .orderID(orderPaidEvent.getOrder().getId().getValue().toString())
+                .restaurantID(orderPaidEvent.getOrder().getRestaurantID().getValue().toString())
+                .restaurantOrderStatus(RestaurantOrderStatus.PAID.name())
+                .products(orderPaidEvent.getOrder().getOrderItems().stream().map(orderItem ->
+                        OrderApprovalEventProduct.builder()
+                                .id(orderItem.getProduct().getId().getValue().toString())
+                                .quantity(orderItem.getQuantity())
+                                .build()).collect(Collectors.toList()))
+                .price(orderPaidEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderPaidEvent.getCreatedAt())
                 .build();
     }
 

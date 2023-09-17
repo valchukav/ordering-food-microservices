@@ -18,7 +18,7 @@ public interface OutboxRepository<T extends OutboxMessage> {
 
     Optional<List<T>> findByTypeAndOutboxStatusAndSagaStatus(String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 
-    Optional<List<T>> findByTypeAndSagaIDAndSagaStatus(String type, UUID sagaID, SagaStatus... sagaStatuses);
+    Optional<T> findByTypeAndSagaIDAndSagaStatus(String type, UUID sagaID, SagaStatus... sagaStatuses);
 
     void deleteByTypeAndOutboxStatusAndSagaStatus(String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 }

@@ -31,7 +31,7 @@ public abstract class OutboxHelper<T extends OutboxMessage> {
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<T>> getOutboxMessage(UUID sagaID, SagaStatus... sagaStatuses) {
+    public Optional<T> getOutboxMessage(UUID sagaID, SagaStatus... sagaStatuses) {
         return outboxRepository.findByTypeAndSagaIDAndSagaStatus(ORDER_SAGA_NAME, sagaID, sagaStatuses);
     }
 

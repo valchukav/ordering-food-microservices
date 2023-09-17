@@ -4,6 +4,7 @@ import lombok.Builder;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.ordering.saga.SagaStatus;
 import ru.avalc.ordering.service.domain.outbox.model.OutboxMessage;
+import ru.avalc.ordering.system.domain.valueobject.OrderStatus;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class OrderApprovalOutboxMessage extends OutboxMessage {
 
     @Builder
-    private OrderApprovalOutboxMessage(UUID id, UUID sagaID, ZonedDateTime createdAt, ZonedDateTime processedAt, String type, String payload, SagaStatus sagaStatus, OutboxStatus outboxStatus, int version) {
-        super(id, sagaID, createdAt, processedAt, type, payload, sagaStatus, outboxStatus, version);
+    private OrderApprovalOutboxMessage(UUID id, UUID sagaID, ZonedDateTime createdAt, ZonedDateTime processedAt, String type, String payload, OrderStatus orderStatus, SagaStatus sagaStatus, OutboxStatus outboxStatus, int version) {
+        super(id, sagaID, createdAt, processedAt, type, payload, orderStatus, sagaStatus, outboxStatus, version);
     }
 }
