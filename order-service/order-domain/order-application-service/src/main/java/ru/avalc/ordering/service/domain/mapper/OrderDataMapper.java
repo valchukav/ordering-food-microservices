@@ -9,6 +9,7 @@ import ru.avalc.ordering.domain.entity.Order;
 import ru.avalc.ordering.domain.entity.OrderItem;
 import ru.avalc.ordering.domain.entity.Product;
 import ru.avalc.ordering.domain.entity.Restaurant;
+import ru.avalc.ordering.domain.event.OrderCancelledEvent;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.domain.event.OrderPaidEvent;
 import ru.avalc.ordering.domain.valueobject.StreetAddress;
@@ -73,6 +74,16 @@ public class OrderDataMapper {
                 .price(orderCreatedEvent.getOrder().getPrice().getAmount())
                 .createdAt(orderCreatedEvent.getCreatedAt())
                 .paymentOrderStatus(PaymentOrderStatus.PENDING.name())
+                .build();
+    }
+
+    public OrderPaymentEventPayload orderCancelledEventToOrderPaymentEventPayload(OrderCancelledEvent orderCancelledEvent) {
+        return OrderPaymentEventPayload.builder()
+                .customerID(orderCancelledEvent.getOrder().getCustomerID().getValue().toString())
+                .orderID(orderCancelledEvent.getOrder().getId().getValue().toString())
+                .price(orderCancelledEvent.getOrder().getPrice().getAmount())
+                .createdAt(orderCancelledEvent.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.CANCELLED.name())
                 .build();
     }
 
