@@ -3,7 +3,6 @@ package ru.avalc.ordering.outbox;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.avalc.ordering.saga.SagaStatus;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -23,7 +22,6 @@ public abstract class OutboxMessage {
     private ZonedDateTime processedAt;
     private String type;
     private String payload;
-    private SagaStatus sagaStatus;
     private OutboxStatus outboxStatus;
     private int version;
 }

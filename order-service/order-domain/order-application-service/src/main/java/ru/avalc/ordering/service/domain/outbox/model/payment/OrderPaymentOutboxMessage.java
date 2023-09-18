@@ -15,16 +15,17 @@ import java.util.UUID;
  * @author Alexei Valchuk, 16.09.2023, email: a.valchukav@gmail.com
  */
 
-
+@Setter
+@Getter
 public class OrderPaymentOutboxMessage extends OutboxMessage {
 
-    @Setter
-    @Getter
     private OrderStatus orderStatus;
+    private SagaStatus sagaStatus;
 
     @Builder
     private OrderPaymentOutboxMessage(UUID id, UUID sagaID, ZonedDateTime createdAt, ZonedDateTime processedAt, String type, String payload, SagaStatus sagaStatus, OutboxStatus outboxStatus, int version, OrderStatus orderStatus) {
-        super(id, sagaID, createdAt, processedAt, type, payload, sagaStatus, outboxStatus, version);
+        super(id, sagaID, createdAt, processedAt, type, payload, outboxStatus, version);
         this.orderStatus = orderStatus;
+        this.sagaStatus = sagaStatus;
     }
 }
