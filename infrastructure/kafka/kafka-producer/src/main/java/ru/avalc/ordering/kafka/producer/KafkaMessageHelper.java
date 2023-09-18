@@ -1,10 +1,14 @@
 package ru.avalc.ordering.kafka.producer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+import ru.avalc.ordering.domain.exception.OrderDomainException;
 import ru.avalc.ordering.outbox.OutboxStatus;
 
 import java.util.function.BiConsumer;
@@ -15,7 +19,10 @@ import java.util.function.BiConsumer;
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class KafkaMessageHelper {
+
+    private final ObjectMapper objectMapper;
 
     public <T, U> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(String paymentResponseTopicName,
                                                                                    T avroModel, U outboxMessage,
@@ -43,5 +50,15 @@ public class KafkaMessageHelper {
                 outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
             }
         };
+    }
+
+    public <T> T getOrderEventPayload(String payload, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(payload, clazz);
+        } catch (JsonProcessingException e) {
+            String message = "Could not read " + clazz.getName();
+            log.error(message, e);
+            throw new OrderDomainException(message, e);
+        }
     }
 }

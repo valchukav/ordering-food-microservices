@@ -1,11 +1,8 @@
 package ru.avalc.ordering.order.service.messaging.publisher.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.avalc.ordering.domain.exception.OrderDomainException;
 import ru.avalc.ordering.kafka.order.avro.model.PaymentRequestAvroModel;
 import ru.avalc.ordering.kafka.producer.KafkaMessageHelper;
 import ru.avalc.ordering.kafka.producer.service.KafkaProducer;
@@ -31,11 +28,11 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
     private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
     private final OrderServiceConfigData orderServiceConfigData;
     private final KafkaMessageHelper kafkaMessageHelper;
-    private final ObjectMapper objectMapper;
 
     @Override
     public void publish(OrderPaymentOutboxMessage outboxMessage, BiConsumer<OrderPaymentOutboxMessage, OutboxStatus> outboxCallback) {
-        OrderPaymentEventPayload orderPaymentEventPayload = getOrderPaymentEventPayload(outboxMessage.getPayload());
+        OrderPaymentEventPayload orderPaymentEventPayload
+                = kafkaMessageHelper.getOrderEventPayload(outboxMessage.getPayload(), OrderPaymentEventPayload.class);
 
         String sagaID = outboxMessage.getSagaID().toString();
         log.info("Received OrderPaymentOutboxMessage for order id: {} and saga id: {}", orderPaymentEventPayload.getOrderID(), sagaID);
@@ -62,16 +59,6 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
         } catch (Exception e) {
             log.error("Error while sending OrderPaymentEventPayload to Kafka with order id: {} and saga id: {}, error: {}",
                     orderPaymentEventPayload.getOrderID(), sagaID, e.getMessage());
-        }
-    }
-
-    private OrderPaymentEventPayload getOrderPaymentEventPayload(String payload) {
-        try {
-            return objectMapper.readValue(payload, OrderPaymentEventPayload.class);
-        } catch (JsonProcessingException e) {
-            String message = "Could not read OrderPaymentEventPayload";
-            log.error(message, e);
-            throw new OrderDomainException(message, e);
         }
     }
 }
