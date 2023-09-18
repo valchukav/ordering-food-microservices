@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Bean;
 import ru.avalc.ordering.domain.OrderDomainService;
 import ru.avalc.ordering.domain.OrderDomainServiceImpl;
 import ru.avalc.ordering.service.domain.ports.output.message.publisher.payment.PaymentRequestMessagePublisher;
-import ru.avalc.ordering.service.domain.ports.output.repository.CustomerRepository;
-import ru.avalc.ordering.service.domain.ports.output.repository.OrderRepository;
-import ru.avalc.ordering.service.domain.ports.output.repository.RestaurantRepository;
+import ru.avalc.ordering.service.domain.ports.output.message.publisher.restaurant.RestaurantApprovalRequestMessagePublisher;
+import ru.avalc.ordering.service.domain.ports.output.repository.*;
 
 /**
  * @author Alexei Valchuk, 09.09.2023, email: a.valchukav@gmail.com
@@ -20,6 +19,11 @@ public class OrderConfigurationTest {
     @Bean
     public PaymentRequestMessagePublisher paymentRequestMessagePublisher() {
         return Mockito.mock(PaymentRequestMessagePublisher.class);
+    }
+
+    @Bean
+    public RestaurantApprovalRequestMessagePublisher restaurantApprovalRequestMessagePublisher() {
+        return Mockito.mock(RestaurantApprovalRequestMessagePublisher.class);
     }
 
     @Bean
@@ -35,6 +39,16 @@ public class OrderConfigurationTest {
     @Bean
     public RestaurantRepository restaurantRepository() {
         return Mockito.mock(RestaurantRepository.class);
+    }
+
+    @Bean
+    public PaymentOutboxRepository paymentOutboxRepository() {
+        return Mockito.mock(PaymentOutboxRepository.class);
+    }
+
+    @Bean
+    public ApprovalOutboxRepository approvalOutboxRepository() {
+        return Mockito.mock(ApprovalOutboxRepository.class);
     }
 
     @Bean
