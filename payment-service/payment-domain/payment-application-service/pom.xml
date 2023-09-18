@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>ru.avalc</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
             <artifactId>common-tests</artifactId>
             <scope>test</scope>
         </dependency>
