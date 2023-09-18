@@ -8,6 +8,7 @@ import ru.avalc.ordering.domain.event.OrderCancelledEvent;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.domain.event.OrderPaidEvent;
 import ru.avalc.ordering.kafka.order.avro.model.*;
+import ru.avalc.ordering.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import ru.avalc.ordering.system.domain.valueobject.OrderApprovalStatus;
 import ru.avalc.ordering.system.domain.valueobject.PaymentStatus;
 
@@ -91,6 +92,19 @@ public class OrderMessagingDataMapper {
                 .createdAt(restaurantApprovalResponseAvroModel.getCreatedAt())
                 .orderApprovalStatus(OrderApprovalStatus.valueOf(restaurantApprovalResponseAvroModel.getOrderApprovalStatus().name()))
                 .failureMessages(restaurantApprovalResponseAvroModel.getFailureMessages())
+                .build();
+    }
+
+    public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(String sagaId, OrderPaymentEventPayload
+            orderPaymentEventPayload) {
+        return PaymentRequestAvroModel.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setSagaId(sagaId)
+                .setCustomerId(orderPaymentEventPayload.getCustomerID())
+                .setOrderId(orderPaymentEventPayload.getOrderID())
+                .setPrice(orderPaymentEventPayload.getPrice())
+                .setCreatedAt(orderPaymentEventPayload.getCreatedAt().toInstant())
+                .setPaymentOrderStatus(PaymentOrderStatus.valueOf(orderPaymentEventPayload.getPaymentOrderStatus()))
                 .build();
     }
 }
