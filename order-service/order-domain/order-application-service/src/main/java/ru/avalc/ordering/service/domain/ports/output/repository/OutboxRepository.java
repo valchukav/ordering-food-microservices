@@ -1,8 +1,8 @@
 package ru.avalc.ordering.service.domain.ports.output.repository;
 
+import ru.avalc.ordering.outbox.OutboxMessage;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.ordering.saga.SagaStatus;
-import ru.avalc.ordering.service.domain.outbox.model.OutboxMessage;
 
 import java.util.List;
 import java.util.Optional;

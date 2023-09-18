@@ -1,7 +1,7 @@
 package ru.avalc.ordering.service.domain.ports.output.message.publisher;
 
+import ru.avalc.ordering.outbox.OutboxMessage;
 import ru.avalc.ordering.outbox.OutboxStatus;
-import ru.avalc.ordering.service.domain.outbox.model.OutboxMessage;
 
 import java.util.function.BiConsumer;
 

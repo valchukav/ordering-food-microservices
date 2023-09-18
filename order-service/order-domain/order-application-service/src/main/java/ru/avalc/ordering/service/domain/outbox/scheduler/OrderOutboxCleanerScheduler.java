@@ -3,10 +3,10 @@ package ru.avalc.ordering.service.domain.outbox.scheduler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import ru.avalc.ordering.outbox.OutboxMessage;
 import ru.avalc.ordering.outbox.OutboxScheduler;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.ordering.saga.SagaStatus;
-import ru.avalc.ordering.service.domain.outbox.model.OutboxMessage;
 
 import java.util.List;
 import java.util.Optional;

@@ -20,5 +20,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
+import ru.avalc.ordering.outbox.OutboxMessage;
 import ru.avalc.ordering.outbox.OutboxScheduler;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.ordering.saga.SagaStatus;
-import ru.avalc.ordering.service.domain.outbox.model.OutboxMessage;
 import ru.avalc.ordering.service.domain.ports.output.message.publisher.RequestMessagePublisher;
 
 import java.util.List;
