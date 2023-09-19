@@ -2,9 +2,6 @@ package ru.avalc.ordering.restaurant.service.domain;
 
 import ru.avalc.ordering.restaurant.service.domain.entity.Restaurant;
 import ru.avalc.ordering.restaurant.service.domain.event.OrderApprovalEvent;
-import ru.avalc.ordering.restaurant.service.domain.event.OrderApprovedEvent;
-import ru.avalc.ordering.restaurant.service.domain.event.OrderRejectedEvent;
-import ru.avalc.ordering.system.domain.event.publisher.DomainEventPublisher;
 
 import java.util.List;
 
@@ -14,7 +11,5 @@ import java.util.List;
 
 public interface RestaurantDomainService {
 
-    OrderApprovalEvent validateOrder(Restaurant restaurant, List<String> failureMessages,
-                                     DomainEventPublisher<OrderApprovedEvent> orderApprovalEventDomainEventPublisher,
-                                     DomainEventPublisher<OrderRejectedEvent> orderRejectedEventDomainEventPublisher);
+    OrderApprovalEvent validateOrder(Restaurant restaurant, List<String> failureMessages);
 }
