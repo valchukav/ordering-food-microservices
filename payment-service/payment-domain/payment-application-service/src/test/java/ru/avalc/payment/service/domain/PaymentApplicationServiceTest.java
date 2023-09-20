@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.avalc.ordering.domain.exception.OrderDomainException;
 import ru.avalc.ordering.outbox.OutboxStatus;
+import ru.avalc.ordering.payment.service.domain.PaymentDomainService;
 import ru.avalc.ordering.payment.service.domain.PaymentDomainServiceImpl;
 import ru.avalc.ordering.payment.service.domain.entity.CreditEntry;
 import ru.avalc.ordering.payment.service.domain.entity.CreditHistory;
 import ru.avalc.ordering.payment.service.domain.entity.Payment;
+import ru.avalc.ordering.payment.service.domain.event.PaymentEvent;
+import ru.avalc.ordering.payment.service.domain.event.PaymentFailedEvent;
 import ru.avalc.ordering.payment.service.domain.exception.PaymentNotFoundException;
 import ru.avalc.ordering.payment.service.domain.valueobject.CreditEntityID;
 import ru.avalc.ordering.payment.service.domain.valueobject.CreditHistoryID;
@@ -55,6 +58,9 @@ public class PaymentApplicationServiceTest extends OrderingTest {
     private PaymentRequestHelper paymentRequestHelper;
 
     @Autowired
+    private PaymentDomainService paymentDomainService;
+
+    @Autowired
     private CreditEntryRepository creditEntryRepository;
 
     @Autowired
@@ -78,8 +84,13 @@ public class PaymentApplicationServiceTest extends OrderingTest {
     private PaymentRequest paymentRequest;
 
     private Payment payment;
+    private Payment paymentWithHugeAmount;
+    private Payment negativePayment;
 
     private CreditEntry creditEntry;
+
+    private List<CreditHistory> creditHistories;
+
     private BigDecimal totalCreditEntryAmount;
 
     @BeforeEach
@@ -98,11 +109,27 @@ public class PaymentApplicationServiceTest extends OrderingTest {
                 .amount(new Money(creditHistory_2_amount))
                 .build();
 
+        creditHistories = new ArrayList<>();
+        creditHistories.add(creditHistory_1);
+        creditHistories.add(creditHistory_2);
+
         payment = Payment.builder()
                 .paymentID(new PaymentID(PAYMENT_ID))
                 .customerID(new CustomerID(CUSTOMER_ID))
                 .orderID(new OrderID(ORDER_ID))
                 .price(new Money(50))
+                .build();
+
+        negativePayment = Payment.builder()
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .orderID(new OrderID(ORDER_ID))
+                .price(new Money(-50))
+                .build();
+
+        paymentWithHugeAmount = Payment.builder()
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .orderID(new OrderID(ORDER_ID))
+                .price(new Money(170))
                 .build();
 
         totalCreditEntryAmount = creditHistory_1_amount.subtract(creditHistory_2_amount);
@@ -129,35 +156,50 @@ public class PaymentApplicationServiceTest extends OrderingTest {
         when(orderOutboxRepository.save(any(OrderOutboxMessage.class))).thenReturn(getOrderOutboxMessage());
     }
 
-    private OrderOutboxMessage getOrderOutboxMessage() {
-        OrderEventPayload orderEventPayload = OrderEventPayload.builder()
-                .paymentID(PAYMENT_ID.toString())
-                .orderID(ORDER_ID.toString())
-                .customerID(CUSTOMER_ID.toString())
-                .price(payment.getPrice().getAmount())
-                .createdAt(ZonedDateTime.now())
-                .paymentStatus(PaymentStatus.COMPLETED.name())
-                .build();
+    @Test
+    public void validateAndInitiateWithNegativePaymentAmount() {
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(negativePayment, creditEntry, creditHistories, new ArrayList<>());
 
-        return OrderOutboxMessage.builder()
-                .id(UUID.randomUUID())
-                .sagaID(SAGA_ID)
-                .createdAt(ZonedDateTime.now())
-                .type(ORDER_SAGA_NAME)
-                .payload(createPayload(orderEventPayload))
-                .paymentStatus(PaymentStatus.COMPLETED)
-                .sagaStatus(SagaStatus.STARTED)
-                .outboxStatus(OutboxStatus.STARTED)
-                .version(0)
-                .build();
+        assertThat(paymentEvent.getPayment().getCustomerID()).isEqualTo(payment.getCustomerID());
+        assertThat(paymentEvent.getPayment().getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
+        assertThat(paymentEvent.getFailureMessages()).isNotEmpty();
+        assertThat(paymentEvent).isInstanceOf(PaymentFailedEvent.class);
     }
 
-    private String createPayload(OrderEventPayload orderEventPayload) {
-        try {
-            return objectMapper.writeValueAsString(orderEventPayload);
-        } catch (JsonProcessingException e) {
-            throw new OrderDomainException("Cannot create OrderPaymentEventPayload object!");
-        }
+    @Test
+    public void validateAndInitiateWithAmountGreaterThanTotalCreditAmount() {
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(paymentWithHugeAmount, creditEntry, creditHistories, new ArrayList<>());
+
+        assertThat(paymentEvent.getPayment().getCustomerID()).isEqualTo(paymentWithHugeAmount.getCustomerID());
+        assertThat(paymentEvent.getPayment().getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
+        assertThat(paymentEvent.getFailureMessages()).isNotEmpty();
+        assertThat(paymentEvent).isInstanceOf(PaymentFailedEvent.class);
+    }
+
+    @Test
+    public void validateAndInitiateWithInvalidCreditEntry() {
+        CreditEntry creditEntry = CreditEntry.builder()
+                .creditEntityID(new CreditEntityID(creditEntryID))
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .totalCreditAmount(new Money(2302))
+                .build();
+
+        PaymentEvent paymentEvent = paymentDomainService.validateAndInitiatePayment(paymentWithHugeAmount, creditEntry, creditHistories, new ArrayList<>());
+
+        assertThat(paymentEvent.getPayment().getCustomerID()).isEqualTo(payment.getCustomerID());
+        assertThat(paymentEvent.getPayment().getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
+        assertThat(paymentEvent.getFailureMessages()).isNotEmpty();
+        assertThat(paymentEvent).isInstanceOf(PaymentFailedEvent.class);
+    }
+
+    @Test
+    public void validateAndCancelPaymentWithNegativePaymentAmount() {
+        PaymentEvent paymentEvent = paymentDomainService.validateAndCancelPayment(negativePayment, creditEntry, creditHistories, new ArrayList<>());
+
+        assertThat(paymentEvent.getPayment().getCustomerID()).isEqualTo(payment.getCustomerID());
+        assertThat(paymentEvent.getPayment().getPaymentStatus()).isEqualTo(PaymentStatus.FAILED);
+        assertThat(paymentEvent.getFailureMessages()).isNotEmpty();
+        assertThat(paymentEvent).isInstanceOf(PaymentFailedEvent.class);
     }
 
     @Test
@@ -229,5 +271,36 @@ public class PaymentApplicationServiceTest extends OrderingTest {
 
         verify(mock(PaymentDomainServiceImpl.class), times(0))
                 .validateAndInitiatePayment(any(Payment.class), any(CreditEntry.class), anyList(), anyList());
+    }
+
+    private OrderOutboxMessage getOrderOutboxMessage() {
+        OrderEventPayload orderEventPayload = OrderEventPayload.builder()
+                .paymentID(PAYMENT_ID.toString())
+                .orderID(ORDER_ID.toString())
+                .customerID(CUSTOMER_ID.toString())
+                .price(payment.getPrice().getAmount())
+                .createdAt(ZonedDateTime.now())
+                .paymentStatus(PaymentStatus.COMPLETED.name())
+                .build();
+
+        return OrderOutboxMessage.builder()
+                .id(UUID.randomUUID())
+                .sagaID(SAGA_ID)
+                .createdAt(ZonedDateTime.now())
+                .type(ORDER_SAGA_NAME)
+                .payload(createPayload(orderEventPayload))
+                .paymentStatus(PaymentStatus.COMPLETED)
+                .sagaStatus(SagaStatus.STARTED)
+                .outboxStatus(OutboxStatus.STARTED)
+                .version(0)
+                .build();
+    }
+
+    private String createPayload(OrderEventPayload orderEventPayload) {
+        try {
+            return objectMapper.writeValueAsString(orderEventPayload);
+        } catch (JsonProcessingException e) {
+            throw new OrderDomainException("Cannot create OrderPaymentEventPayload object!");
+        }
     }
 }
