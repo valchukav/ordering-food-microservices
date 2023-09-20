@@ -1,5 +1,6 @@
 package ru.avalc.ordering.restaurant.service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import ru.avalc.ordering.restaurant.service.domain.entity.Product;
@@ -13,7 +14,9 @@ import java.util.List;
  * @author Alexei Valchuk, 14.09.2023, email: a.valchukav@gmail.com
  */
 
+@Builder
 @Getter
+@AllArgsConstructor
 public class RestaurantApprovalRequest {
 
     private final String id;
@@ -24,16 +27,4 @@ public class RestaurantApprovalRequest {
     private final List<Product> products;
     private final BigDecimal price;
     private final Instant createdAt;
-
-    @Builder
-    private RestaurantApprovalRequest(String id, String sagaID, String restaurantID, String orderID, RestaurantOrderStatus restaurantOrderStatus, List<Product> products, BigDecimal price, Instant createdAt) {
-        this.id = id;
-        this.sagaID = sagaID;
-        this.restaurantID = restaurantID;
-        this.orderID = orderID;
-        this.restaurantOrderStatus = restaurantOrderStatus;
-        this.products = products;
-        this.price = price;
-        this.createdAt = createdAt;
-    }
 }

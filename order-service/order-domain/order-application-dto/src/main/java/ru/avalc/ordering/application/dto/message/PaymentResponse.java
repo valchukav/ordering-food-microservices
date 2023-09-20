@@ -1,5 +1,6 @@
 package ru.avalc.ordering.application.dto.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import ru.avalc.ordering.system.domain.valueobject.PaymentStatus;
@@ -12,7 +13,9 @@ import java.util.List;
  * @author Alexei Valchuk, 07.09.2023, email: a.valchukav@gmail.com
  */
 
+@Builder
 @Getter
+@AllArgsConstructor
 public class PaymentResponse {
 
     private final String id;
@@ -24,17 +27,4 @@ public class PaymentResponse {
     private final Instant createdAt;
     private final PaymentStatus paymentStatus;
     private final List<String> failureMessages;
-
-    @Builder
-    private PaymentResponse(String id, String sagaID, String orderID, String paymentID, String customerID, BigDecimal price, Instant createdAt, PaymentStatus paymentStatus, List<String> failureMessages) {
-        this.id = id;
-        this.sagaID = sagaID;
-        this.orderID = orderID;
-        this.paymentID = paymentID;
-        this.customerID = customerID;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.paymentStatus = paymentStatus;
-        this.failureMessages = failureMessages;
-    }
 }
