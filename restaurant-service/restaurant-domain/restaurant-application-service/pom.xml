@@ -25,8 +25,20 @@
             <artifactId>restaurant-application-dto</artifactId>
         </dependency>
         <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>outbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.avalc</groupId>
