@@ -2,11 +2,13 @@ package ru.avalc.ordering.order.service.messaging.listener.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.domain.exception.OrderNotFoundException;
 import ru.avalc.ordering.kafka.consumer.KafkaConsumer;
 import ru.avalc.ordering.kafka.order.avro.model.PaymentResponseAvroModel;
 import ru.avalc.ordering.kafka.order.avro.model.PaymentStatus;
@@ -41,16 +43,24 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
         );
 
         messages.forEach(paymentResponseAvroModel -> {
-            if (paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.COMPLETED) {
-                log.info("Processing successfully payment for order id: {}", paymentResponseAvroModel.getOrderId());
+            try {
+                if (paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.COMPLETED) {
+                    log.info("Processing successfully payment for order id: {}", paymentResponseAvroModel.getOrderId());
 
-                paymentResponseMessageListener.paymentCompleted(orderMessagingDataMapper
-                        .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
-            } else if (paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.CANCELLED ||
-                    paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.FAILED) {
-                log.info("Processing unsuccessfully payment for order id: {}", paymentResponseAvroModel.getOrderId());
-                paymentResponseMessageListener.paymentCanceled(orderMessagingDataMapper
-                        .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
+                    paymentResponseMessageListener.paymentCompleted(orderMessagingDataMapper
+                            .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
+                } else if (paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.CANCELLED ||
+                        paymentResponseAvroModel.getPaymentStatus() == PaymentStatus.FAILED) {
+                    log.info("Processing unsuccessfully payment for order id: {}", paymentResponseAvroModel.getOrderId());
+                    paymentResponseMessageListener.paymentCanceled(orderMessagingDataMapper
+                            .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
+                }
+            } catch (OptimisticLockingFailureException e) {
+                log.error("Caught optimistic locking exception in PaymentResponseKafkaListener for order id: {}",
+                        paymentResponseAvroModel.getOrderId());
+            } catch (OrderNotFoundException ex) {
+                log.error("No order found for order id: {}",
+                        paymentResponseAvroModel.getOrderId());
             }
         });
     }

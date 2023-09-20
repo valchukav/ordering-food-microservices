@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.avalc.ordering.application.dto.message.RestaurantApprovalResponse;
-import ru.avalc.ordering.domain.event.OrderCancelledEvent;
 import ru.avalc.ordering.service.domain.ports.input.message.listener.restaurant.RestaurantApprovalResponseMessageListener;
 
 import static ru.avalc.ordering.system.domain.DomainConstants.FAILURE_MESSAGE_DELIMITER;
@@ -30,10 +29,9 @@ public class RestaurantApprovalMessageListenerImpl implements RestaurantApproval
 
     @Override
     public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse) {
-        OrderCancelledEvent orderCancelledEvent = orderApprovalSaga.rollback(restaurantApprovalResponse);
-        log.info("Order with id: {}, is roll backed with failure messages: {}",
+        orderApprovalSaga.rollback(restaurantApprovalResponse);
+        log.info("Order Approval Saga Rollback operation is completed for order with id: {}, is roll backed with failure messages: {}",
                 restaurantApprovalResponse.getOrderID(),
                 String.join(FAILURE_MESSAGE_DELIMITER, restaurantApprovalResponse.getFailureMessages()));
-        orderCancelledEvent.fire();
     }
 }

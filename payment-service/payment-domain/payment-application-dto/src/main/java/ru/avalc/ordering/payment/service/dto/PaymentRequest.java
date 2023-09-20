@@ -1,5 +1,6 @@
 package ru.avalc.ordering.payment.service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,9 @@ import java.time.Instant;
  * @author Alexei Valchuk, 13.09.2023, email: a.valchukav@gmail.com
  */
 
+@Builder
 @Getter
+@AllArgsConstructor
 public class PaymentRequest {
 
     private final String id;
@@ -30,15 +33,4 @@ public class PaymentRequest {
     private final Instant createdAt;
     @Setter
     private PaymentOrderStatus paymentOrderStatus;
-
-    @Builder
-    private PaymentRequest(String id, String sagaID, String orderID, String customerID, BigDecimal price, Instant createdAt, PaymentOrderStatus paymentOrderStatus) {
-        this.id = id;
-        this.sagaID = sagaID;
-        this.orderID = orderID;
-        this.customerID = customerID;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.paymentOrderStatus = paymentOrderStatus;
-    }
 }

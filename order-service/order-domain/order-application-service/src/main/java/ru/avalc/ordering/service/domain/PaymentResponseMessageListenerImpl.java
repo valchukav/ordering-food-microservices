@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ru.avalc.ordering.application.dto.message.PaymentResponse;
-import ru.avalc.ordering.domain.event.OrderPaidEvent;
 import ru.avalc.ordering.service.domain.ports.input.message.listener.payment.PaymentResponseMessageListener;
 
 import static ru.avalc.ordering.system.domain.DomainConstants.FAILURE_MESSAGE_DELIMITER;
@@ -24,9 +23,8 @@ public class PaymentResponseMessageListenerImpl implements PaymentResponseMessag
 
     @Override
     public void paymentCompleted(PaymentResponse paymentResponse) {
-        OrderPaidEvent orderPaidEvent = orderPaymentSaga.process(paymentResponse);
-        log.info("Publishing OrderPaidEvent for order id: {}", paymentResponse.getOrderID());
-        orderPaidEvent.fire();
+        orderPaymentSaga.process(paymentResponse);
+        log.info("Order Payment Saga process is completed for order id: {}", paymentResponse.getOrderID());
     }
 
     @Override

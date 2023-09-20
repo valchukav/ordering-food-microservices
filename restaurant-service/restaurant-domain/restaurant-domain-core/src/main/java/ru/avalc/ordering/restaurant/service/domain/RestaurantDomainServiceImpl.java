@@ -5,7 +5,6 @@ import ru.avalc.ordering.restaurant.service.domain.entity.Restaurant;
 import ru.avalc.ordering.restaurant.service.domain.event.OrderApprovalEvent;
 import ru.avalc.ordering.restaurant.service.domain.event.OrderApprovedEvent;
 import ru.avalc.ordering.restaurant.service.domain.event.OrderRejectedEvent;
-import ru.avalc.ordering.system.domain.event.publisher.DomainEventPublisher;
 import ru.avalc.ordering.system.domain.valueobject.OrderApprovalStatus;
 
 import java.time.ZoneId;
@@ -22,9 +21,7 @@ import static ru.avalc.ordering.system.domain.DomainConstants.UTC;
 public class RestaurantDomainServiceImpl implements RestaurantDomainService {
 
     @Override
-    public OrderApprovalEvent validateOrder(Restaurant restaurant, List<String> failureMessages,
-                                            DomainEventPublisher<OrderApprovedEvent> orderApprovalEventDomainEventPublisher,
-                                            DomainEventPublisher<OrderRejectedEvent> orderRejectedEventDomainEventPublisher) {
+    public OrderApprovalEvent validateOrder(Restaurant restaurant, List<String> failureMessages) {
         restaurant.validateOrder(failureMessages);
         log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
 
@@ -35,8 +32,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
                     restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(UTC)),
-                    orderApprovalEventDomainEventPublisher
+                    ZonedDateTime.now(ZoneId.of(UTC))
             );
         } else {
             log.info("Order is rejected for order id: {}", restaurant.getOrderDetail().getId().getValue());
@@ -44,8 +40,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService {
             return new OrderRejectedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(UTC)),
-                    orderRejectedEventDomainEventPublisher
+                    ZonedDateTime.now(ZoneId.of(UTC))
             );
         }
     }

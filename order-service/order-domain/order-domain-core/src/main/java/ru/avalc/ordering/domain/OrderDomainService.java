@@ -5,7 +5,6 @@ import ru.avalc.ordering.domain.entity.Restaurant;
 import ru.avalc.ordering.domain.event.OrderCancelledEvent;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.domain.event.OrderPaidEvent;
-import ru.avalc.ordering.system.domain.event.publisher.DomainEventPublisher;
 
 import java.util.List;
 
@@ -15,13 +14,13 @@ import java.util.List;
 
 public interface OrderDomainService {
 
-    OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant, DomainEventPublisher<OrderCreatedEvent> domainEventPublisher);
+    OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant);
 
-    OrderPaidEvent payOrder(Order order, DomainEventPublisher<OrderPaidEvent> domainEventPublisher);
+    OrderPaidEvent payOrder(Order order);
 
     void approveOrder(Order order);
 
-    OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages, DomainEventPublisher<OrderCancelledEvent> domainEventPublisher);
+    OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages);
 
     void cancelOrder(Order order, List<String> failureMessages);
 }

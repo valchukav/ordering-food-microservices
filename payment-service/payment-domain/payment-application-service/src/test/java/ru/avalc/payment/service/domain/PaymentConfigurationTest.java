@@ -5,12 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import ru.avalc.ordering.payment.service.domain.PaymentDomainService;
 import ru.avalc.ordering.payment.service.domain.PaymentDomainServiceImpl;
+import ru.avalc.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import ru.avalc.payment.service.domain.ports.output.repository.CreditHistoryRepository;
+import ru.avalc.payment.service.domain.ports.output.repository.OrderOutboxRepository;
 import ru.avalc.payment.service.domain.ports.output.repository.PaymentRepository;
-import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentCancelledMessagePublisher;
-import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentCompletedMessagePublisher;
-import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentFailedMessagePublisher;
 
 /**
  * @author Alexei Valchuk, 13.09.2023, email: a.valchukav@gmail.com
@@ -20,18 +19,8 @@ import ru.avalc.payment.service.domain.ports.output.repository.message.publisher
 public class PaymentConfigurationTest {
 
     @Bean
-    public PaymentCancelledMessagePublisher paymentCancelledMessagePublisher() {
-        return Mockito.mock(PaymentCancelledMessagePublisher.class);
-    }
-
-    @Bean
-    public PaymentCompletedMessagePublisher paymentCompletedMessagePublisher() {
-        return Mockito.mock(PaymentCompletedMessagePublisher.class);
-    }
-
-    @Bean
-    public PaymentFailedMessagePublisher paymentFailedMessagePublisher() {
-        return Mockito.mock(PaymentFailedMessagePublisher.class);
+    public PaymentResponseMessagePublisher paymentResponseMessagePublisher() {
+        return Mockito.mock(PaymentResponseMessagePublisher.class);
     }
 
     @Bean
@@ -47,6 +36,11 @@ public class PaymentConfigurationTest {
     @Bean
     public PaymentRepository paymentRepository() {
         return Mockito.mock(PaymentRepository.class);
+    }
+
+    @Bean
+    public OrderOutboxRepository orderOutboxRepository() {
+        return Mockito.mock(OrderOutboxRepository.class);
     }
 
     @Bean
