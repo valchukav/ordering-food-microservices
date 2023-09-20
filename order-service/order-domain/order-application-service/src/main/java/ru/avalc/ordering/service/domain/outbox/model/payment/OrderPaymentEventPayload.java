@@ -1,6 +1,8 @@
 package ru.avalc.ordering.service.domain.outbox.model.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +14,9 @@ import java.time.ZonedDateTime;
  * @author Alexei Valchuk, 16.09.2023, email: a.valchukav@gmail.com
  */
 
+@JsonDeserialize(builder = OrderPaymentEventPayload.OrderPaymentEventPayloadBuilder.class)
+@Builder
+@AllArgsConstructor
 @Getter
 @Setter
 public class OrderPaymentEventPayload {
@@ -30,13 +35,4 @@ public class OrderPaymentEventPayload {
 
     @JsonProperty
     private String paymentOrderStatus;
-
-    @Builder
-    private OrderPaymentEventPayload(String orderID, String customerID, BigDecimal price, ZonedDateTime createdAt, String paymentOrderStatus) {
-        this.orderID = orderID;
-        this.customerID = customerID;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.paymentOrderStatus = paymentOrderStatus;
-    }
 }

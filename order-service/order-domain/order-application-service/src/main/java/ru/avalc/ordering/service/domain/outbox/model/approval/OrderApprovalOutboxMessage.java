@@ -1,5 +1,6 @@
 package ru.avalc.ordering.service.domain.outbox.model.approval;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * @author Alexei Valchuk, 16.09.2023, email: a.valchukav@gmail.com
  */
 
+@JsonDeserialize(builder = OrderApprovalOutboxMessage.OrderApprovalOutboxMessageBuilder.class)
 @Setter
 @Getter
 public class OrderApprovalOutboxMessage extends OutboxMessage {
