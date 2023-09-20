@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.avalc.ordering.outbox.OutboxScheduler;
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.payment.service.domain.outbox.model.OrderOutboxMessage;
-import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentResponseMessagePublisher;
+import ru.avalc.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
 
 import java.util.List;
 import java.util.Optional;

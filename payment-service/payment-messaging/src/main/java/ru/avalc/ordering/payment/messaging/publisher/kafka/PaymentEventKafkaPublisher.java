@@ -11,7 +11,7 @@ import ru.avalc.ordering.payment.messaging.mapper.PaymentMessagingDataMapper;
 import ru.avalc.payment.service.domain.config.PaymentServiceConfigData;
 import ru.avalc.payment.service.domain.outbox.model.OrderEventPayload;
 import ru.avalc.payment.service.domain.outbox.model.OrderOutboxMessage;
-import ru.avalc.payment.service.domain.ports.output.repository.message.publisher.PaymentResponseMessagePublisher;
+import ru.avalc.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
 
 import java.util.function.BiConsumer;
 

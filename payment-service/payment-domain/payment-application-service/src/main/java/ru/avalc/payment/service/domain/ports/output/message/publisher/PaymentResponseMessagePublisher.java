@@ -1,4 +1,4 @@
-package ru.avalc.payment.service.domain.ports.output.repository.message.publisher;
+package ru.avalc.payment.service.domain.ports.output.message.publisher;
 
 import ru.avalc.ordering.outbox.OutboxStatus;
 import ru.avalc.payment.service.domain.outbox.model.OrderOutboxMessage;
