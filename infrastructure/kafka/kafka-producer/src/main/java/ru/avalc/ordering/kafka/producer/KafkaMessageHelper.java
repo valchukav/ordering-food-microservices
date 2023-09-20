@@ -32,7 +32,7 @@ public class KafkaMessageHelper {
             @Override
             public void onFailure(Throwable ex) {
                 log.error("Error while sending {} with message: {} and outbox type {} to topic: {}",
-                        modelName, avroModel.toString(), outboxMessage.getClass().getName(), paymentResponseTopicName, ex);
+                        modelName, avroModel.toString(), outboxMessage.getClass().getSimpleName(), paymentResponseTopicName, ex);
                 outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
             }
 

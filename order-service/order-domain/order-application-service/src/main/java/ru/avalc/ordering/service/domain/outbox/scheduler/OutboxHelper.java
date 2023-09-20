@@ -39,12 +39,12 @@ public abstract class OutboxHelper<T extends OutboxMessage> {
     public void save(T outboxMessage) {
         OutboxMessage response = outboxRepository.save(outboxMessage);
         if (response == null) {
-            String message = "Could not save " + outboxMessage.getClass().getName() + " with outbox id: " + outboxMessage.getId();
+            String message = "Could not save " + outboxMessage.getClass().getSimpleName() + " with outbox id: " + outboxMessage.getId();
             log.error(message);
             throw new OrderDomainException(message);
         }
 
-        log.info("{} is saved with outbox id: {}", outboxMessage.getClass().getName(), outboxMessage.getId());
+        log.info("{} is saved with outbox id: {}", outboxMessage.getClass().getSimpleName(), outboxMessage.getId());
     }
 
     @Transactional
