@@ -1,5 +1,6 @@
 package ru.avalc.ordering.customer.service.domain.create;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.UUID;
  * @author Alexei Valchuk, 21.09.2023, email: a.valchukav@gmail.com
  */
 
+@JsonDeserialize(builder = CreateCustomerResponse.CreateCustomerResponseBuilder.class)
 @Getter
 @Builder
 @AllArgsConstructor

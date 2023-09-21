@@ -54,7 +54,7 @@ public class CustomerControllerUnitTest extends OrderingTest {
 
         CreateCustomerResponse createCustomerResponse = CreateCustomerResponse.builder()
                 .customerID(CUSTOMER_ID)
-                .message("Customer saves successfully")
+                .message("Customer saved successfully")
                 .build();
 
         when(customerApplicationService.createCustomer(any(CreateCustomerCommand.class))).thenReturn(createCustomerResponse);

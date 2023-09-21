@@ -29,6 +29,6 @@ public class CustomerApplicationServiceImpl implements CustomerApplicationServic
     public CreateCustomerResponse createCustomer(CreateCustomerCommand createCustomerCommand) {
         CustomerCreatedEvent customerCreatedEvent = customerCreateCommandHandler.createCustomer(createCustomerCommand);
         customerMessagePublisher.publish(customerCreatedEvent);
-        return customerDataMapper.customerToCreateCustomerResponse(customerCreatedEvent.getCustomer(), "Customer saves successfully");
+        return customerDataMapper.customerToCreateCustomerResponse(customerCreatedEvent.getCustomer(), "Customer saved successfully");
     }
 }
