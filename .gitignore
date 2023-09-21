@@ -1,3 +1,4 @@
 /infrastructure/docker-compose/volumes
 .idea
 .help
+/infrastructure/docker-compose/postgres-data
