@@ -162,6 +162,31 @@
             </dependency>
             <dependency>
                 <groupId>ru.avalc</groupId>
+                <artifactId>customer-domain-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>customer-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>customer-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>customer-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
+                <artifactId>customer-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.avalc</groupId>
                 <artifactId>common-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>

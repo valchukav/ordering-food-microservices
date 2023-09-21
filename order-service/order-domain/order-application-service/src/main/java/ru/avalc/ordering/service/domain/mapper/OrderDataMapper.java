@@ -4,11 +4,9 @@ import org.springframework.stereotype.Component;
 import ru.avalc.ordering.application.dto.create.CreateOrderCommand;
 import ru.avalc.ordering.application.dto.create.CreateOrderResponse;
 import ru.avalc.ordering.application.dto.create.OrderAddress;
+import ru.avalc.ordering.application.dto.message.CustomerModel;
 import ru.avalc.ordering.application.dto.track.TrackOrderResponse;
-import ru.avalc.ordering.domain.entity.Order;
-import ru.avalc.ordering.domain.entity.OrderItem;
-import ru.avalc.ordering.domain.entity.Product;
-import ru.avalc.ordering.domain.entity.Restaurant;
+import ru.avalc.ordering.domain.entity.*;
 import ru.avalc.ordering.domain.event.OrderCancelledEvent;
 import ru.avalc.ordering.domain.event.OrderCreatedEvent;
 import ru.avalc.ordering.domain.event.OrderPaidEvent;
@@ -99,6 +97,15 @@ public class OrderDataMapper {
                                 .build()).collect(Collectors.toList()))
                 .price(orderPaidEvent.getOrder().getPrice().getAmount())
                 .createdAt(orderPaidEvent.getCreatedAt())
+                .build();
+    }
+
+    public Customer customerModelToCustomer(CustomerModel customerModel) {
+        return Customer.builder()
+                .customerID(new CustomerID(UUID.fromString(customerModel.getId())))
+                .username(customerModel.getUsername())
+                .firstName(customerModel.getFirstName())
+                .lastName(customerModel.getLastName())
                 .build();
     }
 

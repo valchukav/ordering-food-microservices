@@ -27,6 +27,7 @@ public abstract class OrderingTest {
     protected static CreateOrderCommand createOrderCommandWrongProductPrice;
     protected static Restaurant restaurant;
     protected static Customer customer;
+    protected static ru.avalc.customer.service.domain.entity.Customer fullCustomer;
     protected static Order order;
     protected static final UUID CUSTOMER_ID = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb41");
     protected static final UUID RESTAURANT_ID = UUID.fromString("d215b5f8-0249-4dc5-89a3-51fd148cfb45");
@@ -108,6 +109,13 @@ public abstract class OrderingTest {
                 .build();
 
         customer = Customer.builder().customerID(new CustomerID(CUSTOMER_ID)).build();
+
+        fullCustomer = ru.avalc.customer.service.domain.entity.Customer.builder()
+                .customerID(new CustomerID(CUSTOMER_ID))
+                .username("customer")
+                .firstName("customer")
+                .lastName("customer")
+                .build();
 
         restaurant = Restaurant.builder()
                 .restaurantID(new RestaurantID(RESTAURANT_ID))

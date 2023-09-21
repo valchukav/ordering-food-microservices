@@ -1,6 +1,7 @@
 package ru.avalc.ordering.order.service.messaging.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.avalc.ordering.application.dto.message.CustomerModel;
 import ru.avalc.ordering.application.dto.message.PaymentResponse;
 import ru.avalc.ordering.application.dto.message.RestaurantApprovalResponse;
 import ru.avalc.ordering.kafka.order.avro.model.*;
@@ -74,6 +75,15 @@ public class OrderMessagingDataMapper {
                                 .build()).collect(Collectors.toList()))
                 .setPrice(orderApprovalEventPayload.getPrice())
                 .setCreatedAt(orderApprovalEventPayload.getCreatedAt().toInstant())
+                .build();
+    }
+
+    public CustomerModel customerAvroModelToCustomerModel(CustomerAvroModel customerAvroModel) {
+        return CustomerModel.builder()
+                .id(customerAvroModel.getId())
+                .username(customerAvroModel.getUsername())
+                .firstName(customerAvroModel.getFirstName())
+                .lastName(customerAvroModel.getLastName())
                 .build();
     }
 }

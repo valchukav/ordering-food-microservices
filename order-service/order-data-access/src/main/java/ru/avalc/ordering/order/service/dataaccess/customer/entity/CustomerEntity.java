@@ -12,7 +12,7 @@ import java.util.UUID;
  * @author Alexei Valchuk, 12.09.2023, email: a.valchukav@gmail.com
  */
 
-@Table(name = "order_customer_m_view", schema = "customer")
+@Table(name = "customers")
 @Entity
 @Getter
 @Setter
@@ -22,6 +22,13 @@ import java.util.UUID;
 public class CustomerEntity {
 
     @Id
-    @Column(name = "id")
     private UUID id;
+
+    private String username;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 }
