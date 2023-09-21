@@ -28,5 +28,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.avalc</groupId>
+            <artifactId>common-tests</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
