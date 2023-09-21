@@ -10,7 +10,6 @@ import ru.avalc.ordering.customer.service.domain.create.CreateCustomerCommand;
 import ru.avalc.ordering.customer.service.domain.create.CreateCustomerResponse;
 import ru.avalc.ordering.customer.service.domain.ports.input.service.CustomerApplicationService;
 import ru.avalc.ordering.customer.service.domain.ports.output.repository.CustomerRepository;
-import ru.avalc.ordering.system.domain.valueobject.CustomerID;
 import ru.avalc.ordering.tests.OrderingTest;
 
 import javax.validation.ConstraintViolationException;
@@ -34,27 +33,18 @@ public class CustomerApplicationServiceTest extends OrderingTest {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private Customer customer;
-
     private CreateCustomerCommand createCustomerCommand;
 
     @BeforeEach
     public void init() {
-        customer = Customer.builder()
-                .customerID(new CustomerID(CUSTOMER_ID))
-                .username("customer")
-                .firstName("customer")
-                .lastName("customer")
-                .build();
-
         createCustomerCommand = CreateCustomerCommand.builder()
-                .customerID(customer.getId().getValue())
-                .username(customer.getUsername())
-                .firstName(customer.getFirstName())
-                .lastName(customer.getLastName())
+                .customerID(fullCustomer.getId().getValue())
+                .username(fullCustomer.getUsername())
+                .firstName(fullCustomer.getFirstName())
+                .lastName(fullCustomer.getLastName())
                 .build();
 
-        when(customerRepository.createCustomer(any(Customer.class))).thenReturn(customer);
+        when(customerRepository.createCustomer(any(Customer.class))).thenReturn(fullCustomer);
     }
 
     @Test
@@ -79,9 +69,9 @@ public class CustomerApplicationServiceTest extends OrderingTest {
     public void createCustomerWithInvalidCreateCustomerCommand() {
         createCustomerCommand = CreateCustomerCommand.builder()
                 .customerID(null)
-                .username(customer.getUsername())
-                .firstName(customer.getFirstName())
-                .lastName(customer.getLastName())
+                .username(fullCustomer.getUsername())
+                .firstName(fullCustomer.getFirstName())
+                .lastName(fullCustomer.getLastName())
                 .build();
 
         assertThrows(ConstraintViolationException.class, () -> customerApplicationService.createCustomer(createCustomerCommand));
