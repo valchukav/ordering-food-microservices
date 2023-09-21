@@ -46,6 +46,9 @@
                 <configuration>
                     <image>
                         <name>${project.groupId}/customer.service:${project.version}</name>
+                        <env>
+                            <BP_JVM_VERSION>${java.version_maven_sb_plugin}</BP_JVM_VERSION>
+                        </env>
                     </image>
                 </configuration>
                 <executions>

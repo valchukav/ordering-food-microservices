@@ -26,6 +26,8 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>16</java.version>
+        <java.version_maven_sb_plugin>17.*</java.version_maven_sb_plugin>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <spring-kafka.version>2.8.2</spring-kafka.version>
         <kafka-avro-serializer.version>7.0.1</kafka-avro-serializer.version>
@@ -219,7 +221,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>18</release>
+                    <release>16</release>
+                    <compilerVersion>16</compilerVersion>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
