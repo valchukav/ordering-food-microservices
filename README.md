@@ -9,7 +9,7 @@ This project is designed for educational purposes and represents food ordering s
 - Payment service,
 - Restaurant service.
 
-Services communicate with each other through Kafka in accordance to CQRS, Saga and Outbox patterns. The flow is described in the next steps:
+Services interact through Kafka in accordance to CQRS, Saga and Outbox patterns. The flow is described in the next steps:
 
 1. The REST controller of the Order service processes an order creation request, which specifies the customer ID, restaurant ID and other order details such as delivery address and needed products. Then Order service validates the orded and in case of success publishes PaymentRequestAvroModel for Payment service (through "payment-request" topic).
 2. PaymentRequestKafkaListener from Payment service consumes this message and provides its own validation of credit entry and credit history of the customer. After that Payment service publishes PaymentResponseAvroModel in PAID or CANCELLED status for Order service (through "payment-response" topic).
